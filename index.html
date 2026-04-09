@@ -215,8 +215,7 @@ input:focus{border-color:var(--gbrd);box-shadow:0 0 0 3px rgba(212,164,76,.07)}
 .cbadge svg{width:14px;height:14px;color:var(--gold)}
 .lrow{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:15px 20px;display:flex;align-items:center;gap:14px;margin-bottom:10px;position:relative;overflow:hidden}
 .lrow::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(212,164,76,.04),transparent);transform:translateX(-100%);animation:sumShim 5s ease-in-out 1s infinite}
-.lv{font-family:var(--fm);font-size:13px;color:var(--glt);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-/* FIX 8: renamed to ID #ccp to avoid ambiguity */
+.lv{font-family:var(--fm);font-size:11px;color:var(--glt);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cpbtn{background:var(--gdim);border:1px solid var(--gbrd);border-radius:9px;color:var(--gold);padding:8px 18px;font-size:12px;font-family:var(--fm);cursor:pointer;flex-shrink:0;transition:all .2s;display:flex;align-items:center;gap:6px}
 .cpbtn svg{width:12px;height:12px}
 .cpbtn:hover{background:rgba(212,164,76,.18)}
@@ -278,6 +277,32 @@ input:focus{border-color:var(--gbrd);box-shadow:0 0 0 3px rgba(212,164,76,.07)}
 .btnviral svg{width:15px;height:15px}
 .btnviral:hover{transform:translateY(-3px);box-shadow:0 10px 50px rgba(212,164,76,.3)}
 @keyframes fup{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+/* Toast */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(16px);background:#1A1B2E;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:13px 28px;color:var(--cream);font-size:13px;z-index:99999;opacity:0;transition:opacity .3s var(--e1),transform .3s var(--e1);white-space:nowrap;pointer-events:none;max-width:calc(100vw - 48px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Sealed + Code overlays */
+.big-ov{position:fixed;inset:0;z-index:9000;background:rgba(5,5,10,.97);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;opacity:0;pointer-events:none;transition:opacity .5s var(--e1)}
+.big-ov.on{opacity:1;pointer-events:all}
+.big-ov-icon{width:80px;height:80px;border-radius:50%;background:var(--gdim);border:1.5px solid var(--gbrd);display:flex;align-items:center;justify-content:center}
+.big-ov-t{font-family:var(--fd);font-size:42px;font-weight:300;color:var(--cream);margin-bottom:6px;text-align:center}
+.big-ov-s{font-size:14px;color:var(--lt);text-align:center}
+.big-ov-date{font-size:18px;color:var(--gold);font-family:var(--fd);font-style:italic;margin:8px 0;text-align:center}
+.big-ov-days{font-family:var(--fm);font-size:12px;color:var(--dim);text-align:center}
+.ov-inp{width:100%;max-width:340px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:14px;color:var(--cream);font-family:var(--fb);font-size:17px;padding:16px 22px;outline:none;color-scheme:dark;text-align:center;letter-spacing:.1em;transition:border-color .25s}
+.ov-inp:focus{border-color:var(--gbrd)}
+.ov-inp.err-shake{animation:shake .35s ease-in-out}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.ov-err{color:#f08080;font-size:13px;text-align:center;min-height:18px;font-family:var(--fm)}
+.ov-btn{background:linear-gradient(135deg,#C89030,#D4A44C,#E8B860,#D4A44C);background-size:300%;border:none;border-radius:12px;color:#120900;padding:14px 44px;font-family:var(--fb);font-size:15px;font-weight:500;cursor:pointer;animation:btnShim 4s linear infinite;transition:transform .2s}
+.ov-btn:hover{transform:translateY(-2px)}
+.ov-cancel{background:none;border:none;color:var(--dim);font-size:13px;cursor:pointer;font-family:var(--fb);padding:4px 8px}
+.ov-cancel:hover{color:var(--lt)}
+.ov-back{background:none;border:1px solid rgba(255,255,255,.1);border-radius:10px;color:var(--lt);padding:12px 28px;font-family:var(--fb);font-size:14px;cursor:pointer;transition:all .2s}
+.ov-back:hover{border-color:rgba(255,255,255,.2);color:var(--cream)}
+/* AI key note */
+.ai-note{font-size:11px;color:var(--dim);font-family:var(--fm);margin-top:-20px;margin-bottom:20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ai-note a{color:var(--gold);text-decoration:none}
+.ai-note a:hover{text-decoration:underline}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:4px}
 @media(max-width:680px){.dests{grid-template-columns:1fr}.privrow{grid-template-columns:1fr}.shbtns{grid-template-columns:1fr 1fr}.sp{padding:24px 20px 80px}.cnav{padding:0 20px}.pgwrap{padding:16px 20px 0}}
 </style>
@@ -287,9 +312,34 @@ input:focus{border-color:var(--gbrd);box-shadow:0 0 0 3px rgba(212,164,76,.07)}
 <canvas id="burc"></canvas>
 <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
 
+<!-- SEALED OVERLAY -->
+<div class="big-ov" id="sealed-ov">
+  <div class="big-ov-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+  <div>
+    <div class="big-ov-t">Todavía sellada.</div>
+    <div class="big-ov-s">Esta cápsula aún no puede abrirse.</div>
+    <div class="big-ov-date" id="sealed-date-txt"></div>
+    <div class="big-ov-days" id="sealed-days-txt"></div>
+  </div>
+  <button class="ov-back" onclick="closeOv('sealed-ov')">← Volver al inicio</button>
+</div>
+
+<!-- CODE OVERLAY -->
+<div class="big-ov" id="code-ov">
+  <div class="big-ov-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+  <div style="text-align:center">
+    <div class="big-ov-t">Código secreto</div>
+    <div class="big-ov-s">Esta cápsula está protegida con código.</div>
+  </div>
+  <input class="ov-inp" id="code-inp" type="text" placeholder="Ingresa el código…" onkeydown="if(event.key==='Enter')checkCode()">
+  <div class="ov-err" id="code-err"></div>
+  <button class="ov-btn" onclick="checkCode()">Abrir cápsula</button>
+  <button class="ov-cancel" onclick="closeOv('code-ov')">Cancelar</button>
+</div>
+
 <!-- S1 LANDING -->
 <div id="sl" class="scr">
-  <img class="l-logo" src="" alt="CápsulaDe">
+  <img class="l-logo" src="img/logo.png" alt="CápsulaDe">
   <div class="l-tag"><span class="l-dot"></span>Cápsulas del tiempo digitales</div>
   <h1 class="l-h1" id="lh1"></h1>
   <p class="l-sub">Sin cuentas. Sin apps. Solo un momento guardado en el tiempo, listo para abrirse cuando elijas.</p>
@@ -298,9 +348,9 @@ input:focus{border-color:var(--gbrd);box-shadow:0 0 0 3px rgba(212,164,76,.07)}
     <span class="bhs">Gratis · Sin registro · 30 segundos</span>
   </div>
   <div class="l-stats">
-    <div><div class="ls-n">4.2K</div><div class="ls-l">cápsulas selladas</div></div>
-    <div><div class="ls-n">38</div><div class="ls-l">países</div></div>
+    <div><div class="ls-n" id="stat-count">—</div><div class="ls-l">cápsulas selladas</div></div>
     <div><div class="ls-n">∞</div><div class="ls-l">años posibles</div></div>
+    <div><div class="ls-n">0kb</div><div class="ls-l">datos enviados</div></div>
   </div>
   <div class="l-scroll"><span>deslizar</span><div class="sline"></div></div>
 </div>
@@ -344,6 +394,12 @@ input:focus{border-color:var(--gbrd);box-shadow:0 0 0 3px rgba(212,164,76,.07)}
       <button class="aib" onclick="enhance('directo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg><span>Más directo</span></button>
       <span class="ast" id="ast"></span>
     </div>
+    <p class="ai-note">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      La IA necesita tu API key de Anthropic (gratis en <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>).
+      <span id="ai-key-status"></span>
+      <a href="#" onclick="clearApiKey();return false" id="ai-clear-link" style="display:none;color:var(--dim)">Cambiar key</a>
+    </p>
     <div class="snav"><span></span><button class="bnx" onclick="nx()">Continuar<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
   </div>
 
@@ -359,7 +415,7 @@ input:focus{border-color:var(--gbrd);box-shadow:0 0 0 3px rgba(212,164,76,.07)}
     <div class="dz" id="dz" onclick="document.getElementById('fin').click()" ondragover="dzOv(event)" ondrop="dzDr(event)" ondragleave="dzLv()">
       <svg class="dz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       <div class="dz-t">Arrastra aquí o haz clic para buscar</div>
-      <div class="dz-s">JPG · PNG · GIF · MP4 · Máx 10MB</div>
+      <div class="dz-s">JPG · PNG · GIF · Máx 2MB por imagen</div>
     </div>
     <input type="file" id="fin" multiple accept="image/*" onchange="hFiles(this.files)">
     <div class="mprev" id="mp"></div>
@@ -401,7 +457,7 @@ input:focus{border-color:var(--gbrd);box-shadow:0 0 0 3px rgba(212,164,76,.07)}
       <input type="text" id="rn" placeholder="Ej: María">
       <label class="lb2">Email del destinatario</label>
       <input type="email" id="re" placeholder="maria@ejemplo.com">
-      <p style="font-size:12px;color:var(--dim);margin-top:-8px">Recibirá el link automáticamente al llegar la fecha.</p>
+      <p style="font-size:12px;color:var(--dim);margin-top:-8px">Se abrirá tu cliente de email para enviarle el link automáticamente.</p>
     </div>
     <div class="snav" style="margin-top:28px"><button class="bbk" onclick="pv()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Atrás</button><button class="bnx" onclick="nx()">Continuar<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
   </div>
@@ -445,25 +501,27 @@ input:focus{border-color:var(--gbrd);box-shadow:0 0 0 3px rgba(212,164,76,.07)}
   <div class="conf">
     <div class="csealic" id="csi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
     <h2 class="ct">Tu cápsula ha sido sellada.</h2>
-    <p class="cs">Guardada, cifrada, lista para el momento exacto que elegiste.</p>
+    <p class="cs">Guardada en este dispositivo, lista para el momento exacto que elegiste.</p>
     <div class="cbadge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="cbd">—</span></div>
-    <!-- FIX 8: id="ccp" added for unambiguous selector -->
-    <div class="lrow"><span class="lv" id="clv">capsulade.com/c/—</span><button class="cpbtn" id="ccp" onclick="cpL()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+    <div class="lrow"><span class="lv" id="clv">—</span><button class="cpbtn" id="ccp" onclick="cpL()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
     <p id="ccl" style="font-size:12px;color:var(--dim);font-family:var(--fm);margin-bottom:20px;text-align:left;display:none">Código: <span id="ccv" style="color:var(--glt)"></span></p>
+    <p style="font-size:11px;color:var(--dim);font-family:var(--fm);margin-bottom:20px;text-align:left">
+      ⚠️ El link solo funciona en <strong style="color:var(--lt)">este navegador y dispositivo</strong>. Compártelo o guárdalo desde aquí mismo.
+    </p>
     <div class="scard">
       <div class="sctag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Captura para compartir</div>
       <div class="scmsg" id="scmsg">"He guardado algo para el futuro..."</div>
-      <div class="scm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="scd">—</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Cifrada</div>
+      <div class="scm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="scd">—</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Guardada localmente</div>
       <div class="scbr">CápsulaDe</div>
     </div>
     <div class="shbtns">
-      <div class="shb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>WhatsApp</div>
-      <div class="shb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Instagram</div>
+      <div class="shb" onclick="shareWA()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>WhatsApp</div>
+      <div class="shb" onclick="shareNative()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Compartir</div>
       <div class="shb" onclick="cpL()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Copiar link</div>
     </div>
     <div class="confbtns">
       <button class="btnew" onclick="goTo('s3','sl');resetAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Crear otra</button>
-      <button class="btndemo" onclick="startReveal()">Simular apertura<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      <button class="btndemo" onclick="startReveal()">Abrir ahora<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
     </div>
   </div>
 </div>
@@ -483,15 +541,134 @@ input:focus{border-color:var(--gbrd);box-shadow:0 0 0 3px rgba(212,164,76,.07)}
 </div>
 
 <script>
-// ── FIX 9: API key should be set as an environment variable or via your backend.
-// Replace 'TU_API_KEY_AQUI' with your actual Anthropic API key.
-const API_KEY = 'TU_API_KEY_AQUI';
-
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
 const S = {msg:'', days:365, dest:'self', rn:'', re:'', priv:'pub', code:'', token:'', imgs:[], od:null};
 let step = 0;
 
-// ── FIX 4: goTo uses element.scrollTop instead of window.scrollTo
-// because .scr elements are position:fixed with overflow-y:auto
+// ═══════════════════════════════════════════
+// LOCAL STORAGE
+// ═══════════════════════════════════════════
+const LS_KEY = 'capsulade_v1';
+
+function lsSave(tok, data) {
+  try {
+    const store = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+    store[tok] = data;
+    localStorage.setItem(LS_KEY, JSON.stringify(store));
+    // Update counter
+    const count = Object.keys(store).length;
+    localStorage.setItem('capsulade_count', count);
+    return true;
+  } catch(e) {
+    console.error('Storage error:', e);
+    return false;
+  }
+}
+
+function lsGet(tok) {
+  try {
+    return JSON.parse(localStorage.getItem(LS_KEY) || '{}')[tok] || null;
+  } catch(e) { return null; }
+}
+
+function lsCount() {
+  try {
+    return Object.keys(JSON.parse(localStorage.getItem(LS_KEY) || '{}')).length;
+  } catch(e) { return 0; }
+}
+
+// ═══════════════════════════════════════════
+// URL HASH CHECK — runs on load
+// ═══════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', function() {
+  // Update counter stat
+  const n = lsCount();
+  document.getElementById('stat-count').textContent = n || '—';
+
+  // Update AI key status
+  updateAiKeyStatus();
+
+  const hash = window.location.hash.slice(1);
+  if (!hash) return;
+
+  const capsule = lsGet(hash);
+  if (!capsule) {
+    showToast('Cápsula no encontrada en este dispositivo. Las cápsulas se guardan localmente en el navegador donde fueron creadas.', 6000);
+    history.replaceState(null, '', window.location.pathname);
+    return;
+  }
+
+  const openDate = new Date(capsule.openDate);
+  const now = new Date();
+
+  if (now < openDate) {
+    showSealedOv(capsule, openDate);
+    return;
+  }
+
+  if (capsule.priv === 'priv' && capsule.code) {
+    window._pendingCapsule = capsule;
+    document.getElementById('code-ov').classList.add('on');
+    return;
+  }
+
+  openCapsule(capsule);
+});
+
+function showSealedOv(capsule, openDate) {
+  const fmt = openDate.toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  const diffMs = openDate - new Date();
+  const days = Math.ceil(diffMs / 86400000);
+  document.getElementById('sealed-date-txt').textContent = 'Se abre el ' + fmt;
+  document.getElementById('sealed-days-txt').textContent = days === 1 ? 'Falta 1 día' : 'Faltan ' + days + ' días';
+  document.getElementById('sealed-ov').classList.add('on');
+}
+
+function closeOv(id) {
+  document.getElementById(id).classList.remove('on');
+  history.replaceState(null, '', window.location.pathname);
+}
+
+function checkCode() {
+  const cap = window._pendingCapsule;
+  const entered = document.getElementById('code-inp').value.trim();
+  const errEl = document.getElementById('code-err');
+  const inp = document.getElementById('code-inp');
+  if (entered === cap.code) {
+    document.getElementById('code-ov').classList.remove('on');
+    openCapsule(cap);
+  } else {
+    errEl.textContent = 'Código incorrecto. Inténtalo de nuevo.';
+    inp.classList.add('err-shake');
+    setTimeout(() => inp.classList.remove('err-shake'), 400);
+  }
+}
+
+function openCapsule(capsule) {
+  // Load state
+  S.msg = capsule.msg;
+  S.imgs = capsule.imgs || [];
+  const created = capsule.createdAt ? new Date(capsule.createdAt) : null;
+  S.days = created ? Math.max(1, Math.round((new Date() - created) / 86400000)) : (capsule.days || 365);
+  S.od = new Date(capsule.openDate);
+
+  // Navigate to reveal screen directly
+  ['sl','sc','s3'].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.add('off');
+    el.classList.remove('exit-up');
+  });
+  document.getElementById('s4').classList.remove('off');
+
+  // Trigger reveal without goTo (already on s4)
+  doRevealAnimation();
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
 function goTo(f, t) {
   const fe = document.getElementById(f), te = document.getElementById(t);
   fe.classList.add('exit-up');
@@ -499,11 +676,13 @@ function goTo(f, t) {
     fe.classList.add('off');
     fe.classList.remove('exit-up');
     te.classList.remove('off');
-    te.scrollTop = 0; // FIX: scroll the target element, not the window
+    te.scrollTop = 0;
   }, 600);
 }
 
-// ── CANVAS ──
+// ═══════════════════════════════════════════
+// CANVAS — starfield
+// ═══════════════════════════════════════════
 (function() {
   const c = document.getElementById('bc'), ctx = c.getContext('2d');
   let stars = [];
@@ -528,7 +707,9 @@ function goTo(f, t) {
   resize(); window.addEventListener('resize', resize); requestAnimationFrame(draw);
 })();
 
-// ── BURST ──
+// ═══════════════════════════════════════════
+// BURST PARTICLES
+// ═══════════════════════════════════════════
 function doBurst(x, y) {
   const c = document.getElementById('burc'), ctx = c.getContext('2d');
   c.width = innerWidth; c.height = innerHeight;
@@ -550,7 +731,9 @@ function doBurst(x, y) {
   requestAnimationFrame(anim);
 }
 
-// ── LANDING WORDS ──
+// ═══════════════════════════════════════════
+// LANDING WORDS
+// ═══════════════════════════════════════════
 (function() {
   const words = [{t:'Escribe',c:''},{t:'algo',c:''},{t:'hoy…',c:'gold'},{t:'y',c:'dim'},{t:'recíbelo',c:'dim'},{t:'en el',c:'dim'},{t:'futuro.',c:'dim'}];
   const h = document.getElementById('lh1');
@@ -565,11 +748,12 @@ document.getElementById('msg').addEventListener('input', function() {
   document.getElementById('cn').textContent = this.value.length;
 });
 
-// FIX 2: Save recipient fields to state as user types
 document.getElementById('rn').addEventListener('input', function() { S.rn = this.value; });
 document.getElementById('re').addEventListener('input', function() { S.re = this.value; });
 
-// ── HINTS ──
+// ═══════════════════════════════════════════
+// HINTS
+// ═══════════════════════════════════════════
 const hints = ["Escríbele a tu yo del futuro…","¿Qué no quieres olvidar de este momento?","¿Qué consejo le darías a quien serás?","¿Qué te haría sonreír dentro de cinco años?","¿Qué sueño tienes hoy que quieres recordar?"];
 let hi = 0;
 setInterval(() => {
@@ -578,46 +762,87 @@ setInterval(() => {
   setTimeout(() => { hi = (hi+1) % hints.length; el.textContent = hints[hi]; el.style.opacity = '1'; }, 380);
 }, 4500);
 
-// ── AI ──
+// ═══════════════════════════════════════════
+// AI ENHANCEMENT
+// ═══════════════════════════════════════════
 const prs = {
-  emocional: 'Reescribe este mensaje para una cápsula del tiempo haciéndolo más emotivo y que toque el corazón. Mantén la esencia pero amplifica los sentimientos. Devuelve SOLO el texto reescrito:',
-  profundo: 'Reescribe este mensaje para una cápsula del tiempo haciéndolo más reflexivo y profundo sobre el paso del tiempo. Devuelve SOLO el texto:',
-  directo: 'Reescribe este mensaje para que sea más directo y poderoso. Cada palabra debe contar. Devuelve SOLO el texto:'
+  emocional: 'Reescribe este mensaje para una cápsula del tiempo haciéndolo más emotivo y que toque el corazón. Mantén la esencia pero amplifica los sentimientos. Devuelve SOLO el texto reescrito, sin comillas ni explicaciones:',
+  profundo: 'Reescribe este mensaje para una cápsula del tiempo haciéndolo más reflexivo y profundo sobre el paso del tiempo. Devuelve SOLO el texto, sin comillas ni explicaciones:',
+  directo: 'Reescribe este mensaje para que sea más directo y poderoso. Cada palabra debe contar. Devuelve SOLO el texto, sin comillas ni explicaciones:'
 };
+
+function updateAiKeyStatus() {
+  const key = localStorage.getItem('cpsd_apikey') || '';
+  const status = document.getElementById('ai-key-status');
+  const clearLink = document.getElementById('ai-clear-link');
+  if (key) {
+    status.textContent = '✓ API key guardada';
+    status.style.color = 'var(--ok)';
+    clearLink.style.display = 'inline';
+  } else {
+    status.textContent = '';
+    clearLink.style.display = 'none';
+  }
+}
+
+function clearApiKey() {
+  localStorage.removeItem('cpsd_apikey');
+  updateAiKeyStatus();
+  showToast('API key borrada');
+}
 
 async function enhance(style) {
   const txt = document.getElementById('msg').value.trim();
   if (!txt) { flashMsg('Primero escribe algo en tu carta.'); return; }
+
+  let key = localStorage.getItem('cpsd_apikey') || '';
+  if (!key) {
+    key = prompt('Para usar la IA, necesitas tu API key de Anthropic.\n\nObtén una gratis en: console.anthropic.com → API Keys\n\nIngresa tu API key (sk-ant-...):');
+    if (!key || !key.trim()) return;
+    key = key.trim();
+    localStorage.setItem('cpsd_apikey', key);
+    updateAiKeyStatus();
+  }
+
   document.querySelectorAll('.aib').forEach(b => b.classList.add('load'));
   document.getElementById('ast').textContent = 'Reescribiendo…';
+
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': API_KEY,
+        'x-api-key': key,
         'anthropic-version': '2023-06-01',
-        // FIX 1: Required header for browser-side API calls
         'anthropic-dangerous-allow-browser': 'true'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 700,
         messages: [{role:'user', content:`${prs[style]}\n\n"${txt}"`}]
       })
     });
     const d = await res.json();
-    if (d.content && d.content[0]) {
-      document.getElementById('msg').value = d.content[0].text.trim();
-      S.msg = document.getElementById('msg').value;
+    if (d.error) {
+      if (d.error.type === 'authentication_error') {
+        localStorage.removeItem('cpsd_apikey');
+        updateAiKeyStatus();
+        flashMsg('API key inválida. Se ha borrado. Inténtalo de nuevo.');
+      } else {
+        flashMsg('Error de IA: ' + (d.error.message || 'Inténtalo de nuevo'));
+      }
+      document.getElementById('ast').textContent = '';
+    } else if (d.content && d.content[0]) {
+      const newText = d.content[0].text.trim().replace(/^["']|["']$/g, '');
+      document.getElementById('msg').value = newText;
+      S.msg = newText;
       document.getElementById('cn').textContent = S.msg.length;
-      document.getElementById('ast').textContent = '✓';
+      document.getElementById('ast').textContent = '✓ Listo';
       setTimeout(() => document.getElementById('ast').textContent = '', 2000);
-    } else {
-      document.getElementById('ast').textContent = 'Error';
     }
   } catch(e) {
-    document.getElementById('ast').textContent = 'Error de conexión';
+    document.getElementById('ast').textContent = '';
+    flashMsg('Error de conexión. Revisa tu internet.');
     console.error('API error:', e);
   }
   document.querySelectorAll('.aib').forEach(b => b.classList.remove('load'));
@@ -625,13 +850,28 @@ async function enhance(style) {
 
 function flashMsg(m) {
   const t = document.createElement('div');
-  t.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#140a0a;border:1px solid rgba(200,50,50,.35);border-radius:10px;padding:12px 24px;color:#f08080;font-size:13px;z-index:9999;pointer-events:none;';
+  t.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#140a0a;border:1px solid rgba(200,50,50,.35);border-radius:10px;padding:12px 24px;color:#f08080;font-size:13px;z-index:9999;pointer-events:none;max-width:calc(100vw - 48px);text-align:center';
   t.textContent = m;
   document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2500);
+  setTimeout(() => t.remove(), 3000);
 }
 
-// ── STEPS ──
+function showToast(msg, duration) {
+  duration = duration || 3000;
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')));
+  setTimeout(() => {
+    t.classList.remove('show');
+    setTimeout(() => t.remove(), 400);
+  }, duration);
+}
+
+// ═══════════════════════════════════════════
+// STEPS
+// ═══════════════════════════════════════════
 function updStep() {
   const pct = [20, 40, 60, 80, 100];
   document.getElementById('pgf').style.width = pct[step] + '%';
@@ -645,7 +885,6 @@ function updStep() {
   if (step === 4) buildSum();
 }
 
-// FIX 7: Validate message is not empty before leaving step 0
 function nx() {
   if (step === 0 && !S.msg.trim()) {
     flashMsg('Escribe algo antes de continuar.');
@@ -654,7 +893,6 @@ function nx() {
   }
   step = Math.min(4, step+1);
   updStep();
-  // Scroll the create screen container to top
   document.getElementById('sc').scrollTop = 0;
 }
 
@@ -664,32 +902,54 @@ function pv() {
   document.getElementById('sc').scrollTop = 0;
 }
 
-// ── MEDIA ──
+// ═══════════════════════════════════════════
+// MEDIA (images → base64)
+// ═══════════════════════════════════════════
 function selMT(el, acc) {
   document.querySelectorAll('.mtb').forEach(b => b.classList.remove('sel'));
   el.classList.add('sel');
   document.getElementById('fin').accept = acc;
 }
+
 function dzOv(e) { e.preventDefault(); document.getElementById('dz').classList.add('over'); }
 function dzLv() { document.getElementById('dz').classList.remove('over'); }
 function dzDr(e) { e.preventDefault(); dzLv(); hFiles(e.dataTransfer.files); }
-function hFiles(files) {
+
+async function hFiles(files) {
   const mp = document.getElementById('mp');
-  Array.from(files).slice(0, 8).forEach(f => {
-    if (!f.type.startsWith('image/')) return;
-    const url = URL.createObjectURL(f);
-    S.imgs.push(url);
-    const div = document.createElement('div'); div.className = 'mthumb';
-    const img = document.createElement('img'); img.src = url;
-    const btn = document.createElement('button'); btn.className = 'rm';
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
-    btn.onclick = e => { e.stopPropagation(); S.imgs.splice(S.imgs.indexOf(url), 1); div.remove(); };
-    div.append(img, btn); mp.append(div);
+  const MAX_IMGS = 8;
+  const items = Array.from(files).slice(0, MAX_IMGS - S.imgs.length);
+  for (const f of items) {
+    if (!f.type.startsWith('image/')) { flashMsg('Solo imágenes JPG, PNG o GIF.'); continue; }
+    if (f.size > 2 * 1024 * 1024) { flashMsg('Imagen muy grande. Máx 2MB por imagen.'); continue; }
+    try {
+      const b64 = await fileToB64(f);
+      S.imgs.push(b64);
+      const div = document.createElement('div'); div.className = 'mthumb';
+      const img = document.createElement('img'); img.src = b64;
+      const btn = document.createElement('button'); btn.className = 'rm';
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      btn.onclick = e => { e.stopPropagation(); const idx = S.imgs.indexOf(b64); if(idx>-1) S.imgs.splice(idx,1); div.remove(); };
+      div.append(img, btn); mp.append(div);
+    } catch(e) { flashMsg('No se pudo cargar la imagen.'); }
+  }
+  if (S.imgs.length >= MAX_IMGS) flashMsg('Máximo ' + MAX_IMGS + ' imágenes por cápsula.');
+}
+
+function fileToB64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.onerror = rej;
+    r.readAsDataURL(file);
   });
 }
 
-// ── DATE ──
+// ═══════════════════════════════════════════
+// DATE
+// ═══════════════════════════════════════════
 const micros = ['"Ese día, esto volverá a ti."','"Las palabras permanecen cuando todo cambia."','"El tiempo es el mejor guardián de secretos."','"Un regalo que solo el futuro puede abrir."'];
+
 function setP(el, d) {
   S.days = d;
   document.getElementById('cd').style.display = 'none';
@@ -697,6 +957,7 @@ function setP(el, d) {
   el.classList.add('sel');
   updDate(d, null);
 }
+
 function opnC(el) {
   document.querySelectorAll('.prst').forEach(b => b.classList.remove('sel'));
   el.classList.add('sel');
@@ -705,11 +966,13 @@ function opnC(el) {
   const mn = new Date(); mn.setDate(mn.getDate()+1);
   cd.min = mn.toISOString().split('T')[0];
 }
+
 function onCD(v) {
   const t = new Date(v + 'T12:00:00');
   S.days = Math.max(1, Math.round((t - new Date()) / 86400000));
   updDate(S.days, t);
 }
+
 function updDate(d, t) {
   S.od = t || (() => { const dt = new Date(); dt.setDate(dt.getDate()+d); return dt; })();
   const fmt = S.od.toLocaleDateString('es-ES', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
@@ -734,13 +997,12 @@ function selPv(el, t) {
   document.getElementById('cdf').style.display = t === 'priv' ? 'block' : 'none';
 }
 
-// FIX 3: buildSum reads from S state, not raw DOM
 function buildSum() {
   const dm = {'self':'Para ti mismo', 'other':`Para ${S.rn || 'alguien especial'}`, 'link':'Solo con link'};
   const ds = S.od ? S.od.toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'}) : '—';
   const rows = [
     ['Mensaje', S.msg ? '"' + S.msg.slice(0, 55) + (S.msg.length > 55 ? '…' : '') + '"' : '(vacío)'],
-    ['Imágenes', S.imgs.length + ' adjuntas'],
+    ['Imágenes', S.imgs.length ? S.imgs.length + ' adjuntas' : 'Ninguna'],
     ['Apertura', ds],
     ['Destino', dm[S.dest]],
     ['Privacidad', S.priv === 'pub' ? 'Con link' : 'Con código']
@@ -748,7 +1010,9 @@ function buildSum() {
   document.getElementById('sb').innerHTML = rows.map(([k,v]) => `<div class="srow"><span class="srk">${k}</span><span class="srv">${v}</span></div>`).join('');
 }
 
-// ── AUDIO ──
+// ═══════════════════════════════════════════
+// AUDIO
+// ═══════════════════════════════════════════
 function snd(t) {
   try {
     const ac = new (window.AudioContext || window.webkitAudioContext)();
@@ -778,13 +1042,50 @@ function mkTok() {
   return t;
 }
 
-// ── SEAL ──
+// ═══════════════════════════════════════════
+// SEAL — SAVE REAL DATA
+// ═══════════════════════════════════════════
 function doSeal() {
+  if (S.priv === 'priv') {
+    const code = document.getElementById('sc2').value.trim();
+    if (!code) { flashMsg('Ingresa un código secreto para proteger tu cápsula.'); return; }
+    S.code = code;
+  }
+
   S.token = mkTok();
-  if (S.priv === 'priv') S.code = document.getElementById('sc2').value;
+
+  // Build the open date if not set
+  if (!S.od) {
+    S.od = new Date();
+    S.od.setDate(S.od.getDate() + S.days);
+  }
+
+  const capsuleData = {
+    msg: S.msg,
+    imgs: S.imgs,
+    days: S.days,
+    openDate: S.od.toISOString(),
+    dest: S.dest,
+    rn: S.rn,
+    re: S.re,
+    priv: S.priv,
+    code: S.priv === 'priv' ? S.code : '',
+    createdAt: new Date().toISOString()
+  };
+
+  const saved = lsSave(S.token, capsuleData);
+  if (!saved) {
+    flashMsg('Error al guardar. Las imágenes pueden ser demasiado grandes. Inténtalo sin imágenes.');
+    return;
+  }
+
+  // Update stat counter
+  document.getElementById('stat-count').textContent = lsCount();
+
   const ov = document.getElementById('sov');
   ov.classList.add('on');
   snd('paper');
+
   document.getElementById('ef').classList.remove('shut');
   setTimeout(() => { document.getElementById('el').classList.add('down'); snd('paper'); }, 500);
   setTimeout(() => { document.getElementById('ef').classList.add('shut'); snd('paper'); }, 1300);
@@ -799,6 +1100,10 @@ function doSeal() {
     ov.classList.remove('on');
     fillConf();
     goTo('sc', 's3');
+    // Send email if "para alguien"
+    if (S.dest === 'other' && S.re) {
+      setTimeout(() => sendEmailNotification(), 1000);
+    }
     setTimeout(() => {
       document.getElementById('el').classList.remove('down');
       document.getElementById('ef').classList.remove('shut');
@@ -809,8 +1114,12 @@ function doSeal() {
   }, 5100);
 }
 
+function getShareURL() {
+  return window.location.href.split('#')[0] + '#' + S.token;
+}
+
 function fillConf() {
-  const link = 'capsulade.com/c/' + S.token;
+  const link = getShareURL();
   document.getElementById('clv').textContent = link;
   const ds = S.od ? S.od.toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'}) : '—';
   document.getElementById('cbd').textContent = 'Se abre el ' + ds;
@@ -822,35 +1131,96 @@ function fillConf() {
   } else {
     document.getElementById('ccl').style.display = 'none';
   }
-  // Replay the pop animation by forcing a reflow
   const si = document.getElementById('csi');
   si.style.animation = 'none';
   void si.offsetWidth;
   si.style.animation = '';
 }
 
-// FIX 8: Use specific ID #ccp to avoid ambiguity with share buttons
+// ═══════════════════════════════════════════
+// COPY LINK
+// ═══════════════════════════════════════════
 function cpL() {
   const t = document.getElementById('clv').textContent;
-  navigator.clipboard.writeText(t).catch(() => {});
+  const doCopy = () => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t).then(() => {}).catch(legacyCopy.bind(null, t));
+    } else {
+      legacyCopy(t);
+    }
+  };
+  doCopy();
   const b = document.getElementById('ccp');
   if (b) {
     const orig = b.innerHTML;
     b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12"><polyline points="20 6 9 17 4 12"/></svg>Copiado';
     setTimeout(() => b.innerHTML = orig, 2000);
   }
+  showToast('Link copiado al portapapeles ✓');
 }
 
-// ── REVEAL ──
-// FIX 5 & 6: Fully reset all phase state before starting reveal
+function legacyCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  ta.remove();
+}
+
+// ═══════════════════════════════════════════
+// SHARE FUNCTIONS
+// ═══════════════════════════════════════════
+function shareWA() {
+  const link = document.getElementById('clv').textContent;
+  const ds = S.od ? S.od.toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'}) : '';
+  const msg = `Guardé un momento en el tiempo para abrirse el ${ds}. Ábrelo cuando llegue la fecha:\n${link}`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function shareNative() {
+  const link = document.getElementById('clv').textContent;
+  if (navigator.share) {
+    navigator.share({
+      title: 'CápsulaDe — Mi cápsula del tiempo',
+      text: 'Guardé un momento en el tiempo. Ábrelo cuando llegue la fecha.',
+      url: link
+    }).catch(() => {});
+  } else {
+    cpL();
+    showToast('Link copiado. Compártelo donde quieras.');
+  }
+}
+
+function sendEmailNotification() {
+  const link = getShareURL();
+  const name = S.rn || '';
+  const ds = S.od ? S.od.toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'}) : '';
+  const subject = encodeURIComponent((name ? name + ', ' : '') + 'alguien te envió una cápsula del tiempo');
+  const body = encodeURIComponent(
+    `Hola${name ? ' ' + name : ''}!\n\n` +
+    `Alguien guardó un momento especialmente para ti.\n\n` +
+    `Podrás abrirlo el ${ds}:\n${link}\n\n` +
+    `Nota: El link solo funciona en el mismo navegador donde fue creado.\n\n— CápsulaDe`
+  );
+  window.open(`mailto:${S.re}?subject=${subject}&body=${body}`);
+  showToast('Se abrió tu email para enviar la notificación.');
+}
+
+// ═══════════════════════════════════════════
+// REVEAL
+// ═══════════════════════════════════════════
 function startReveal() {
   goTo('s3', 's4');
+  setTimeout(doRevealAnimation, 700);
+}
 
+function doRevealAnimation() {
   const rp1 = document.getElementById('rp1');
   const rp2 = document.getElementById('rp2');
   const rp3 = document.getElementById('rp3');
 
-  // Clear any inline styles set during a previous run
   rp1.style.display = '';
   rp1.className = 'revph on';
   rp2.style.display = 'none';
@@ -858,18 +1228,15 @@ function startReveal() {
   rp3.style.display = 'none';
   rp3.className = '';
 
-  // Reset envelope elements
   document.getElementById('rfl').classList.remove('opened');
   document.getElementById('rel').classList.remove('rise');
   document.getElementById('rot').classList.remove('on');
 
-  // Reset countdown display
   const cdn = document.getElementById('cdn');
   cdn.textContent = '3';
   cdn.style.fontSize = '';
   cdn.classList.remove('flash');
 
-  // Reset progress bar without transition flicker
   const fill = document.getElementById('cdfill');
   fill.style.transition = 'none';
   fill.style.transform = 'scaleX(1)';
@@ -878,7 +1245,9 @@ function startReveal() {
   const d = S.days;
   document.getElementById('rago').textContent = d >= 365
     ? `Esta cápsula fue creada hace ${Math.round(d/365)} año${d >= 730 ? 's' : ''}`
-    : `Esta cápsula fue creada hace ${Math.round(d/30)} mes${d >= 60 ? 'es' : ''}`;
+    : d >= 30
+    ? `Esta cápsula fue creada hace ${Math.round(d/30)} mes${d >= 60 ? 'es' : ''}`
+    : `Esta cápsula fue creada hace ${d} día${d !== 1 ? 's' : ''}`;
 
   let n = 3;
   function tick() {
@@ -905,7 +1274,6 @@ function startReveal() {
 function revP2() {
   const rp1 = document.getElementById('rp1');
   rp1.classList.remove('on');
-  // Use inline style to override CSS — cleared in startReveal on next run
   rp1.style.display = 'none';
 
   const p2 = document.getElementById('rp2');
@@ -949,13 +1317,14 @@ function revP3() {
   });
 }
 
-// FIX 6: resetAll fully restores all state including reveal phases
+// ═══════════════════════════════════════════
+// RESET
+// ═══════════════════════════════════════════
 function resetAll() {
   S.msg = ''; S.days = 365; S.dest = 'self'; S.rn = ''; S.re = '';
   S.priv = 'pub'; S.code = ''; S.token = ''; S.imgs = []; S.od = null;
   step = 0;
 
-  // Reset form fields
   document.getElementById('msg').value = '';
   document.getElementById('cn').textContent = '0';
   document.getElementById('mp').innerHTML = '';
@@ -963,20 +1332,16 @@ function resetAll() {
   document.getElementById('re').value = '';
   document.getElementById('sc2').value = '';
 
-  // Reset presets
   document.querySelectorAll('.prst').forEach((b, i) => b.classList.toggle('sel', i === 2));
   document.getElementById('cd').style.display = 'none';
   updDate(365, null);
 
-  // Reset destination
   document.querySelectorAll('.dbt').forEach((b, i) => b.classList.toggle('sel', i === 0));
   document.getElementById('emf').style.display = 'none';
 
-  // Reset privacy
   document.querySelectorAll('.pvb').forEach((b, i) => b.classList.toggle('sel', i === 0));
   document.getElementById('cdf').style.display = 'none';
 
-  // Reset reveal state (clear inline styles that override CSS)
   const rp1 = document.getElementById('rp1');
   rp1.style.display = '';
   rp1.className = 'revph on';
@@ -988,7 +1353,6 @@ function resetAll() {
   document.getElementById('rel').classList.remove('rise');
   document.getElementById('rot').classList.remove('on');
 
-  // Reset countdown
   const cdn = document.getElementById('cdn');
   cdn.textContent = '3';
   cdn.style.fontSize = '';
@@ -998,7 +1362,9 @@ function resetAll() {
   fill.style.transform = 'scaleX(1)';
   setTimeout(() => fill.style.transition = '', 50);
 
-  // Update step UI
+  // Clear hash from URL
+  history.replaceState(null, '', window.location.pathname);
+
   updStep();
 }
 </script>
