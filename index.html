@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CápsulaDe — Guarda un momento para el futuro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Lora:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#05050A;--bg:#08090F;--s1:#0C0D1A;--s2:#10111F;--card:#121424;
+  --paper:#F5EDDA;--paper2:#EDE0C4;--ink:#1A1209;--ink2:#3D2E17;
+  --gold:#D4A44C;--glt:#F0C878;--gdim:rgba(212,164,76,.1);--gbrd:rgba(212,164,76,.22);
+  --seal:#8B1515;--cream:#EAE3D6;--dim:#55536E;--lt:#9896AC;
+  --ok:#3DAD7E;--r:16px;
+  --e1:cubic-bezier(.23,1,.32,1);--e2:cubic-bezier(.16,1,.3,1);
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',sans-serif;--fl:'Lora',Georgia,serif;
+  --fm:'JetBrains Mono',monospace;
+}
+html{overflow-x:hidden}
+body{background:var(--void);color:var(--cream);font-family:var(--fb);font-size:15px;line-height:1.7;overflow-x:hidden}
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+.o1{width:900px;height:900px;background:radial-gradient(circle,rgba(120,80,200,.055) 0%,transparent 65%);top:-300px;left:-200px;animation:orbD 28s ease-in-out infinite;filter:blur(1px)}
+.o2{width:600px;height:600px;background:radial-gradient(circle,rgba(200,140,50,.04) 0%,transparent 65%);bottom:-150px;right:-100px;animation:orbD 22s ease-in-out infinite -11s;filter:blur(1px)}
+.o3{width:400px;height:400px;background:radial-gradient(circle,rgba(60,130,220,.04) 0%,transparent 65%);top:40%;left:55%;animation:orbD 18s ease-in-out infinite -6s;filter:blur(1px)}
+@keyframes orbD{0%,100%{transform:translate(0,0)}33%{transform:translate(50px,-40px)}66%{transform:translate(-35px,55px)}}
+.scr{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;z-index:1;transition:opacity .65s var(--e1),transform .65s var(--e1),filter .65s var(--e1)}
+.scr.off{opacity:0;pointer-events:none;transform:translateY(30px);filter:blur(5px)}
+.scr.exit-up{opacity:0;pointer-events:none;transform:translateY(-20px);filter:blur(4px)}
+canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+#bc{opacity:.55}
+#burc{z-index:998}
+#sl{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center;position:relative;z-index:1}
+.l-logo{width:clamp(180px,26vw,280px);margin-bottom:32px;filter:drop-shadow(0 0 30px rgba(130,100,230,.35)) drop-shadow(0 0 80px rgba(80,140,255,.2));opacity:0;animation:logoFloat 5s ease-in-out infinite,logoIn .9s var(--e1) .2s forwards}
+@keyframes logoIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes logoFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-18px) rotate(0deg)}}
+.l-tag{font-family:var(--fm);font-size:11px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;margin-bottom:36px;opacity:0;animation:fup .8s var(--e1) .6s forwards}
+.l-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pdot 2.5s ease-in-out infinite}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.5)}}
+.l-h1{font-family:var(--fd);font-size:clamp(48px,8vw,96px);font-weight:300;line-height:1.0;letter-spacing:-.03em;margin-bottom:20px}
+.lw{display:inline-block;opacity:0;transform:translateY(28px) rotate(-.8deg);transition:opacity .7s var(--e1),transform .7s var(--e1)}
+.lw.in{opacity:1;transform:none}
+.lw.gold{color:var(--glt);font-style:italic;background:linear-gradient(90deg,#F0C878,#FFD690,#E8B060,#F0C878);background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradShift 4s linear infinite}
+@keyframes gradShift{0%{background-position:0%}100%{background-position:300%}}
+.lw.dim{color:rgba(234,227,214,.38)}
+.l-sub{font-size:clamp(14px,2vw,18px);color:var(--lt);font-weight:300;max-width:500px;margin:0 auto 52px;opacity:0;animation:fup .9s var(--e1) 1.3s forwards}
+.l-cta-wrap{opacity:0;animation:fup .9s var(--e1) 1.5s forwards;display:flex;flex-direction:column;align-items:center;gap:14px}
+.btn-hero{background:linear-gradient(135deg,#D4A44C,#C08830,#D4A44C);background-size:200%;border:none;border-radius:100px;color:#120900;font-family:var(--fb);font-size:16px;font-weight:500;padding:18px 56px;cursor:pointer;letter-spacing:.02em;transition:transform .25s var(--e1),box-shadow .25s;animation:heroGlow 3s ease-in-out infinite}
+@keyframes heroGlow{0%,100%{box-shadow:0 6px 30px rgba(212,164,76,.2)}50%{box-shadow:0 10px 50px rgba(212,164,76,.4),0 0 80px rgba(212,164,76,.1)}}
+.btn-hero:hover{transform:translateY(-3px) scale(1.02)}
+.btn-hero:active{transform:scale(.97)}
+.bhs{font-size:12px;color:var(--dim)}
+.l-stats{display:flex;gap:52px;margin-top:76px;opacity:0;animation:fup .9s var(--e1) 1.8s forwards}
+.ls-n{font-family:var(--fd);font-size:34px;font-weight:600;color:var(--cream);line-height:1}
+.ls-l{font-size:11px;color:var(--dim);margin-top:5px;letter-spacing:.04em}
+.l-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fup .8s var(--e1) 2.2s forwards}
+.l-scroll span{font-size:10px;font-family:var(--fm);color:var(--dim);letter-spacing:.12em;text-transform:uppercase}
+.sline{width:1px;height:44px;background:linear-gradient(to bottom,rgba(212,164,76,.5),transparent);animation:slinePulse 2s ease-in-out infinite}
+@keyframes slinePulse{0%,100%{opacity:.5;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.15)}}
+#sc{min-height:100vh;z-index:2;background:var(--bg)}
+.cnav{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;border-bottom:1px solid rgba(255,255,255,.04);position:sticky;top:0;background:rgba(8,9,15,.88);backdrop-filter:blur(22px);z-index:10}
+.c-logo{display:flex;align-items:center;gap:10px}
+.c-logo img{height:32px;filter:drop-shadow(0 0 8px rgba(130,100,220,.4))}
+.c-logo-txt{font-family:var(--fd);font-size:20px;color:var(--cream);letter-spacing:-.01em}
+.c-logo-txt b{color:var(--gold);font-weight:400}
+.cbk{background:none;border:1px solid rgba(255,255,255,.08);border-radius:8px;color:var(--lt);padding:7px 18px;font-family:var(--fb);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .2s}
+.cbk:hover{border-color:rgba(255,255,255,.18);color:var(--cream)}
+.cbk svg{width:14px;height:14px;flex-shrink:0}
+.pgwrap{padding:24px 40px 0}
+.pgbar{position:relative;height:2px;background:rgba(255,255,255,.05);border-radius:2px;margin-bottom:12px;overflow:hidden}
+.pgfill{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,#A87828,#D4A44C,#F0C878,#D4A44C);background-size:200% 100%;border-radius:2px;transition:width .55s var(--e1);animation:pgShim 2.5s linear infinite}
+@keyframes pgShim{0%{background-position:0%}100%{background-position:200%}}
+.pgdots{display:flex;justify-content:space-between}
+.pgd{display:flex;flex-direction:column;align-items:center;gap:6px}
+.pgdc{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--fm);color:var(--dim);transition:all .45s var(--e1);background:var(--bg)}
+.pgdc svg{width:12px;height:12px}
+.pgd.done .pgdc{border-color:rgba(61,173,126,.5);color:var(--ok);background:rgba(61,173,126,.08)}
+.pgd.active .pgdc{border-color:var(--gold);color:var(--gold);background:rgba(212,164,76,.1);box-shadow:0 0 16px rgba(212,164,76,.3),0 0 0 4px rgba(212,164,76,.06)}
+.pgdl{font-size:10px;color:var(--dim);font-family:var(--fm);transition:color .3s}
+.pgd.active .pgdl{color:var(--cream)}
+.sp{display:none;max-width:660px;margin:0 auto;padding:36px 40px 100px;animation:spIn .45s var(--e1) forwards}
+.sp.on{display:block}
+@keyframes spIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.sp-t{font-family:var(--fd);font-size:32px;font-weight:300;color:var(--cream);letter-spacing:-.02em;margin-bottom:4px;line-height:1.2}
+.sp-s{font-size:13px;color:var(--lt);margin-bottom:32px;font-weight:300}
+.lcard{border-radius:20px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.055),inset 0 1px 0 rgba(255,255,255,.07);transition:box-shadow .45s var(--e1),transform .45s var(--e1);margin-bottom:24px;animation:lcBreathe 5s ease-in-out infinite}
+@keyframes lcBreathe{0%,100%{box-shadow:0 24px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.055)}50%{box-shadow:0 28px 80px rgba(0,0,0,.6),0 0 0 1px rgba(212,164,76,.12),0 0 50px rgba(212,164,76,.04)}}
+.lcard:focus-within{animation:none;box-shadow:0 36px 90px rgba(0,0,0,.65),0 0 0 1px rgba(212,164,76,.28),0 0 60px rgba(212,164,76,.07);transform:translateY(-4px)}
+.lh{background:var(--paper2);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(180,155,110,.28)}
+.lhf{font-family:var(--fl);font-size:13px;color:var(--ink2);font-style:italic}
+.lhd{font-family:var(--fm);font-size:11px;color:rgba(58,46,20,.4)}
+.lb{background:var(--paper);position:relative}
+.lbl{position:absolute;inset:0;background:repeating-linear-gradient(transparent 0 31px,rgba(180,155,110,.14) 31px 32px);pointer-events:none}
+textarea#msg{width:100%;min-height:220px;background:transparent;border:none;outline:none;resize:none;font-family:var(--fl);font-size:16.5px;color:var(--ink);line-height:32px;padding:14px 26px;position:relative;z-index:1}
+textarea#msg::placeholder{color:rgba(60,45,18,.3);font-style:italic}
+.lf{background:var(--paper2);padding:10px 24px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(180,155,110,.18)}
+.lfsg{font-family:var(--fl);font-style:italic;font-size:13px;color:rgba(58,46,20,.4)}
+.lfcc{font-family:var(--fm);font-size:11px;color:rgba(58,46,20,.33)}
+.thint{font-size:13px;color:var(--dim);font-style:italic;margin-bottom:16px;transition:opacity .4s;min-height:22px}
+.airow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.ailbl{font-size:11px;font-family:var(--fm);color:var(--gold);letter-spacing:.09em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.ailbl svg{width:13px;height:13px}
+.aib{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:100px;padding:8px 18px;font-size:12px;color:var(--lt);font-family:var(--fb);cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:7px;position:relative;overflow:hidden}
+.aib::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(212,164,76,.08),transparent);transform:translateX(-100%);transition:transform .4s}
+.aib:hover::after{transform:translateX(100%)}
+.aib:hover{border-color:var(--gbrd);color:var(--cream)}
+.aib.load{opacity:.55;pointer-events:none}
+.aib svg{width:13px;height:13px;flex-shrink:0}
+.ast{font-size:12px;color:var(--lt);font-family:var(--fm)}
+.dz{border:1.5px dashed rgba(255,255,255,.09);border-radius:var(--r);padding:48px 32px;text-align:center;cursor:pointer;transition:all .35s var(--e1);position:relative;overflow:hidden;margin-bottom:20px;animation:dzPulse 4s ease-in-out infinite}
+@keyframes dzPulse{0%,100%{border-color:rgba(255,255,255,.09)}50%{border-color:rgba(255,255,255,.14)}}
+.dz:hover,.dz.over{border-color:rgba(212,164,76,.35);background:rgba(212,164,76,.04);animation:none}
+.dz svg.dz-ic{width:40px;height:40px;color:var(--dim);margin:0 auto 14px;display:block}
+.dz-t{font-size:16px;color:var(--cream);margin-bottom:6px}
+.dz-s{font-size:12px;color:var(--dim)}
+input#fin{display:none}
+.mprev{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.mthumb{position:relative;width:88px;height:88px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.09);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.mthumb img{width:100%;height:100%;object-fit:cover}
+.mthumb .rm{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.mthumb .rm:hover{background:rgba(200,40,40,.8)}
+.mthumb .rm svg{width:10px;height:10px}
+.mtrow{display:flex;gap:10px;margin-bottom:20px}
+.mtb{flex:1;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:13px;color:var(--lt)}
+.mtb svg{width:22px;height:22px}
+.mtb:hover,.mtb.sel{background:var(--gdim);border-color:var(--gbrd);color:var(--cream)}
+.dmicro{font-family:var(--fd);font-size:20px;font-style:italic;color:var(--lt);margin-bottom:24px;transition:opacity .4s}
+.presets{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.prst{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:100px;padding:9px 22px;font-size:13px;color:var(--lt);cursor:pointer;font-family:var(--fb);transition:all .25s}
+.prst:hover{border-color:rgba(255,255,255,.14);color:var(--cream)}
+.prst.sel{background:var(--gdim);border-color:var(--gbrd);color:var(--glt)}
+.dcard{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:22px 28px;display:flex;gap:20px;align-items:center;margin-bottom:20px}
+.dorb{width:54px;height:54px;border-radius:16px;background:var(--gdim);border:1px solid var(--gbrd);display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:orbPulse 3s ease-in-out infinite}
+@keyframes orbPulse{0%,100%{box-shadow:0 0 0 0 rgba(212,164,76,0)}50%{box-shadow:0 0 0 6px rgba(212,164,76,.08)}}
+.dorb svg{width:24px;height:24px;color:var(--gold)}
+.dm{font-family:var(--fd);font-size:26px;color:var(--cream);font-weight:300}
+.ds{font-size:12px;color:var(--dim);font-family:var(--fm);margin-top:3px}
+input[type=date]{width:100%;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--cream);font-family:var(--fb);font-size:14px;padding:13px 18px;outline:none;color-scheme:dark;transition:border-color .2s;margin-bottom:16px}
+input[type=date]:focus{border-color:var(--gbrd)}
+.dests{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.dbt{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:22px 14px;text-align:center;cursor:pointer;transition:all .3s var(--e1);display:flex;flex-direction:column;align-items:center;gap:6px}
+.dbt svg{width:28px;height:28px;color:var(--dim);transition:color .3s;margin-bottom:4px}
+.dbt:hover svg,.dbt.sel svg{color:var(--gold)}
+.dbt:hover,.dbt.sel{border-color:var(--gbrd);background:var(--gdim);box-shadow:0 0 30px rgba(212,164,76,.07)}
+.dbt-n{font-size:14px;font-weight:500;color:var(--cream)}
+.dbt-s{font-size:11px;color:var(--dim)}
+label.lb2{display:block;font-size:11px;font-family:var(--fm);letter-spacing:.07em;color:var(--dim);text-transform:uppercase;margin-bottom:8px}
+input[type=text],input[type=email]{width:100%;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);color:var(--cream);font-family:var(--fb);font-size:15px;padding:14px 18px;outline:none;transition:border-color .25s,box-shadow .25s;margin-bottom:16px}
+input::placeholder{color:var(--dim)}
+input:focus{border-color:var(--gbrd);box-shadow:0 0 0 3px rgba(212,164,76,.07)}
+.privrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.pvb{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:20px;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;gap:4px}
+.pvb svg{width:22px;height:22px;color:var(--dim);transition:color .3s;margin-bottom:6px}
+.pvb:hover svg,.pvb.sel svg{color:var(--gold)}
+.pvb:hover,.pvb.sel{background:var(--gdim);border-color:var(--gbrd)}
+.pvbn{font-size:14px;font-weight:500;color:var(--cream)}
+.pvbd{font-size:12px;color:var(--dim)}
+.sumbox{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:22px;margin-bottom:8px;position:relative;overflow:hidden}
+.sumbox::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.015),transparent);transform:translateX(-100%);animation:sumShim 5s ease-in-out infinite}
+@keyframes sumShim{0%,60%{transform:translateX(-100%)}80%{transform:translateX(100%)}100%{transform:translateX(100%)}}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px}
+.srow:last-child{border-bottom:none}
+.srk{color:var(--dim);font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.srv{color:var(--cream)}
+.snav{display:flex;justify-content:space-between;align-items:center;margin-top:36px}
+.bbk{background:none;border:1px solid rgba(255,255,255,.08);border-radius:10px;color:var(--lt);padding:12px 24px;font-family:var(--fb);font-size:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
+.bbk svg{width:14px;height:14px}
+.bbk:hover{border-color:rgba(255,255,255,.18);color:var(--cream)}
+.bnx{background:linear-gradient(135deg,#C89030,#D4A44C,#E8B860,#D4A44C);background-size:300%;border:none;border-radius:10px;color:#120900;padding:12px 30px;font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px;transition:transform .25s,box-shadow .25s;box-shadow:0 4px 20px rgba(212,164,76,.18);animation:btnShim 4s linear infinite}
+@keyframes btnShim{0%{background-position:0%}100%{background-position:300%}}
+.bnx svg{width:15px;height:15px}
+.bnx:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,164,76,.28)}
+.bnx:active{transform:scale(.97)}
+.sealbtn{width:100%;margin-top:36px;background:linear-gradient(135deg,#C89030,#D4A44C,#EAB84A,#D4A44C,#B87A20);background-size:300%;border:none;border-radius:18px;padding:22px;font-family:var(--fd);font-size:24px;font-weight:400;color:#120900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:16px;letter-spacing:.02em;animation:sealShim 4s linear infinite,sealPulse 3s ease-in-out infinite}
+@keyframes sealShim{0%{background-position:0%}100%{background-position:300%}}
+@keyframes sealPulse{0%,100%{box-shadow:0 8px 40px rgba(212,164,76,.18),0 0 0 0 rgba(212,164,76,0)}50%{box-shadow:0 12px 60px rgba(212,164,76,.35),0 0 80px rgba(212,164,76,.06)}}
+.sealbtn:hover{transform:translateY(-3px)}
+.sealbtn:active{transform:scale(.97)}
+.swx{width:44px;height:44px;border-radius:50%;background:rgba(18,9,0,.22);border:1px solid rgba(18,9,0,.15);display:flex;align-items:center;justify-content:center}
+.swx svg{width:20px;height:20px;color:rgba(18,9,0,.7)}
+.divider{height:1px;background:rgba(255,255,255,.05);margin:24px 0}
+#sov{position:fixed;inset:0;z-index:999;background:rgba(5,5,10,.97);display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .5s var(--e1)}
+#sov.on{opacity:1;pointer-events:all}
+.sovsn{display:flex;flex-direction:column;align-items:center}
+.env{position:relative;width:280px;height:196px;margin-bottom:44px;perspective:900px}
+.envbody{position:absolute;inset:0;background:var(--paper);border-radius:3px 3px 10px 10px;border:1px solid rgba(180,155,110,.4);box-shadow:0 24px 60px rgba(0,0,0,.6)}
+.envtl{position:absolute;bottom:0;left:0;width:0;height:0;border-style:solid;border-width:0 0 98px 140px;border-color:transparent transparent var(--paper2) transparent;filter:brightness(.89)}
+.envtr{position:absolute;bottom:0;right:0;width:0;height:0;border-style:solid;border-width:0 140px 98px 0;border-color:transparent transparent var(--paper2) transparent;filter:brightness(.89)}
+.envbl{position:absolute;top:0;left:0;width:0;height:0;border-style:solid;border-width:98px 0 0 140px;border-color:transparent transparent transparent var(--paper2);filter:brightness(.85)}
+.envbr{position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:98px 140px 0 0;border-color:transparent var(--paper2) transparent transparent;filter:brightness(.85)}
+.envflap{position:absolute;top:0;left:0;width:100%;height:0;border-style:solid;border-width:105px 140px 0;border-color:var(--paper2) transparent transparent;transform-origin:top center;transition:transform 1.5s var(--e2);z-index:4;filter:brightness(.9)}
+.envflap.shut{transform:rotateX(182deg)}
+.envltr{position:absolute;top:16px;left:28px;right:28px;height:110px;background:white;border-radius:3px;box-shadow:0 2px 10px rgba(0,0,0,.2);z-index:3;transition:transform 1.2s var(--e1) .3s,opacity .6s .3s}
+.envltr.down{transform:translateY(62px);opacity:0}
+.envllines{position:absolute;inset:8px 10px;background:repeating-linear-gradient(transparent 0 13px,rgba(180,155,110,.18) 13px 14px)}
+.wax{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%) scale(0);width:54px;height:54px;border-radius:50%;background:radial-gradient(circle at 35% 32%,#C82828,#700E0E);display:flex;align-items:center;justify-content:center;transition:transform .65s var(--e2);z-index:5;box-shadow:0 5px 25px rgba(139,21,21,.6)}
+.wax.pop{transform:translateX(-50%) scale(1)}
+.wax svg{width:22px;height:22px;color:rgba(255,180,160,.7)}
+.wring{position:absolute;inset:-10px;border-radius:50%;border:1px solid rgba(212,164,76,0);transition:all .5s .3s}
+.wax.pop .wring{border-color:rgba(212,164,76,.25);transform:scale(1.35)}
+.sovt{font-family:var(--fd);font-size:46px;font-weight:300;color:var(--cream);letter-spacing:.12em;opacity:0;transform:translateY(14px);transition:opacity .8s var(--e1),transform .8s var(--e1)}
+.sovt.on{opacity:1;transform:none}
+.sovs{font-size:14px;color:var(--lt);margin-top:10px;opacity:0;transition:opacity .8s var(--e1) .35s}
+.sovs.on{opacity:1}
+#s3{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:60px 24px;z-index:2;background:var(--bg)}
+.conf{max-width:540px;width:100%;text-align:center}
+.csealic{width:84px;height:84px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#D4A44C,#8C5A10);margin:0 auto 32px;display:flex;align-items:center;justify-content:center;transform:scale(0) rotate(-25deg);animation:cPop .9s var(--e2) forwards;box-shadow:0 0 60px rgba(212,164,76,.22)}
+@keyframes cPop{0%{transform:scale(0) rotate(-25deg);opacity:0}75%{transform:scale(1.1) rotate(4deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.csealic svg{width:36px;height:36px;color:rgba(18,9,0,.8)}
+.ct{font-family:var(--fd);font-size:40px;font-weight:300;color:var(--cream);letter-spacing:-.02em;margin-bottom:8px}
+.cs{font-size:14px;color:var(--lt);margin-bottom:36px;font-weight:300}
+.cbadge{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:100px;padding:9px 22px;font-size:13px;color:var(--cream);margin-bottom:28px}
+.cbadge svg{width:14px;height:14px;color:var(--gold)}
+.lrow{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:15px 20px;display:flex;align-items:center;gap:14px;margin-bottom:10px;position:relative;overflow:hidden}
+.lrow::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(212,164,76,.04),transparent);transform:translateX(-100%);animation:sumShim 5s ease-in-out 1s infinite}
+.lv{font-family:var(--fm);font-size:13px;color:var(--glt);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* FIX 8: renamed to ID #ccp to avoid ambiguity */
+.cpbtn{background:var(--gdim);border:1px solid var(--gbrd);border-radius:9px;color:var(--gold);padding:8px 18px;font-size:12px;font-family:var(--fm);cursor:pointer;flex-shrink:0;transition:all .2s;display:flex;align-items:center;gap:6px}
+.cpbtn svg{width:12px;height:12px}
+.cpbtn:hover{background:rgba(212,164,76,.18)}
+.scard{background:linear-gradient(135deg,#0D0E22,#161830);border:1px solid rgba(212,164,76,.16);border-radius:20px;padding:28px;margin:20px 0;text-align:left;position:relative;overflow:hidden}
+.scard::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(212,164,76,.09),transparent 70%);animation:orbD 6s ease-in-out infinite}
+.sctag{font-family:var(--fm);font-size:10px;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:7px}
+.sctag svg{width:12px;height:12px}
+.scmsg{font-family:var(--fd);font-size:20px;font-style:italic;color:var(--cream);margin-bottom:14px;line-height:1.5}
+.scm{font-size:12px;color:var(--dim);display:flex;gap:20px;align-items:center}
+.scm svg{width:12px;height:12px;color:var(--gold)}
+.scbr{position:absolute;bottom:18px;right:22px;font-family:var(--fd);font-size:13px;color:rgba(212,164,76,.38);font-style:italic}
+.shbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px}
+.shb{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:15px 8px;cursor:pointer;text-align:center;font-size:13px;color:var(--lt);transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:7px}
+.shb svg{width:22px;height:22px}
+.shb:hover{border-color:rgba(255,255,255,.14);color:var(--cream);transform:translateY(-2px)}
+.confbtns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.btnew{background:none;border:1px solid var(--gbrd);border-radius:10px;color:var(--glt);padding:13px 28px;font-family:var(--fb);font-size:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
+.btnew svg{width:14px;height:14px}
+.btnew:hover{background:var(--gdim)}
+.btndemo{background:linear-gradient(135deg,#C89030,#D4A44C,#E8B860,#D4A44C);background-size:300%;border:none;border-radius:10px;color:#120900;padding:13px 28px;font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;transition:transform .25s,box-shadow .25s;display:flex;align-items:center;gap:8px;animation:btnShim 4s linear infinite}
+.btndemo svg{width:14px;height:14px}
+.btndemo:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,164,76,.25)}
+#s4{min-height:100vh;z-index:3;background:var(--void);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.rev{width:100%;max-width:640px;padding:40px 24px;text-align:center}
+.revph{display:none;flex-direction:column;align-items:center}
+.revph.on{display:flex;animation:fup .6s var(--e1) forwards}
+.cdago{font-family:var(--fm);font-size:11px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-bottom:24px}
+.cdintro{font-family:var(--fd);font-size:clamp(22px,4vw,38px);font-weight:300;color:var(--cream);line-height:1.35;margin-bottom:56px}
+.cdintro em{color:var(--glt);font-style:italic;background:linear-gradient(90deg,#F0C878,#FFD690,#E8B060,#F0C878);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradShift 4s linear infinite}
+.cdn{font-family:var(--fd);font-size:clamp(120px,22vw,220px);font-weight:700;color:var(--cream);line-height:1;transition:all .2s var(--e1);background:linear-gradient(180deg,#FFFFFF,#EAE3D6 60%,rgba(234,227,214,.4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cdn.flash{opacity:0;transform:scale(1.6);filter:blur(10px)}
+.cdtrack{width:100px;height:2px;background:rgba(255,255,255,.06);border-radius:2px;margin-top:16px;overflow:hidden}
+.cdfill{height:100%;background:linear-gradient(90deg,#A87828,var(--gold));transform-origin:left;transition:transform 1s linear;box-shadow:0 0 8px rgba(212,164,76,.5)}
+#rp2{display:none;flex-direction:column;align-items:center;gap:36px}
+#rp2.on{display:flex}
+.revenv{position:relative;width:260px;height:180px}
+.revenb{position:absolute;inset:0;background:var(--paper);border-radius:3px 3px 10px 10px;border:1px solid rgba(180,155,110,.45);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.revenltr{position:absolute;top:16px;left:28px;right:28px;height:100px;background:white;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,.2);transition:transform 1.5s var(--e1) .5s}
+.revenltr.rise{transform:translateY(-115px)}
+.revenll{position:absolute;inset:8px 10px;background:repeating-linear-gradient(transparent 0 13px,rgba(180,155,110,.18) 13px 14px)}
+.revflap{position:absolute;top:0;left:0;width:100%;height:0;border-style:solid;border-width:98px 130px 0;border-color:var(--paper2) transparent transparent;transform-origin:top center;transition:transform 2s var(--e2);filter:brightness(.9);z-index:2}
+.revflap.opened{transform:rotateX(-185deg)}
+.revopentxt{font-family:var(--fd);font-size:24px;font-style:italic;color:var(--lt);opacity:0;transition:opacity .7s .9s}
+.revopentxt.on{opacity:1}
+#rp3{display:none;width:100%;text-align:left}
+#rp3.on{display:block}
+.rci{background:rgba(255,255,255,.018);border:1px solid rgba(255,255,255,.06);border-radius:22px;padding:40px;margin-bottom:28px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.rfrom{font-family:var(--fm);font-size:11px;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:10px}
+.rfrom::after{content:'';flex:1;height:1px;background:rgba(212,164,76,.15)}
+.rmsg{font-family:var(--fl);font-size:19px;color:var(--cream);line-height:2;text-align:left}
+.rw{opacity:0;display:inline}
+.rw.sh{animation:win .5s var(--e1) forwards}
+@keyframes win{from{opacity:0;filter:blur(5px);transform:translateY(4px)}to{opacity:1;filter:none;transform:none}}
+.rimgs{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.rimg{width:130px;height:100px;border-radius:12px;object-fit:cover;opacity:0;animation:fup .5s var(--e1) forwards;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.rcls{text-align:center;margin:40px 0}
+.rclst{font-family:var(--fd);font-size:24px;font-weight:300;color:var(--lt);font-style:italic;margin-bottom:28px;line-height:1.6}
+.btnviral{background:linear-gradient(135deg,#C89030,#D4A44C,#E8B860,#D4A44C);background-size:300%;border:none;border-radius:100px;color:#120900;font-family:var(--fb);font-size:15px;font-weight:500;padding:16px 48px;cursor:pointer;transition:transform .25s,box-shadow .25s;display:flex;align-items:center;gap:10px;margin:0 auto;animation:btnShim 4s linear infinite}
+.btnviral svg{width:15px;height:15px}
+.btnviral:hover{transform:translateY(-3px);box-shadow:0 10px 50px rgba(212,164,76,.3)}
+@keyframes fup{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:4px}
+@media(max-width:680px){.dests{grid-template-columns:1fr}.privrow{grid-template-columns:1fr}.shbtns{grid-template-columns:1fr 1fr}.sp{padding:24px 20px 80px}.cnav{padding:0 20px}.pgwrap{padding:16px 20px 0}}
+</style>
+</head>
+<body>
+<canvas id="bc"></canvas>
+<canvas id="burc"></canvas>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
+<!-- S1 LANDING -->
+<div id="sl" class="scr">
+  <img class="l-logo" src="" alt="CápsulaDe">
+  <div class="l-tag"><span class="l-dot"></span>Cápsulas del tiempo digitales</div>
+  <h1 class="l-h1" id="lh1"></h1>
+  <p class="l-sub">Sin cuentas. Sin apps. Solo un momento guardado en el tiempo, listo para abrirse cuando elijas.</p>
+  <div class="l-cta-wrap">
+    <button class="btn-hero" onclick="goTo('sl','sc')">Crear mi cápsula</button>
+    <span class="bhs">Gratis · Sin registro · 30 segundos</span>
+  </div>
+  <div class="l-stats">
+    <div><div class="ls-n">4.2K</div><div class="ls-l">cápsulas selladas</div></div>
+    <div><div class="ls-n">38</div><div class="ls-l">países</div></div>
+    <div><div class="ls-n">∞</div><div class="ls-l">años posibles</div></div>
+  </div>
+  <div class="l-scroll"><span>deslizar</span><div class="sline"></div></div>
+</div>
+
+<!-- S2 CREATE -->
+<div id="sc" class="scr off">
+  <nav class="cnav">
+    <div class="c-logo">
+      <div class="c-logo-txt">Cápsula<b>De</b></div>
+    </div>
+    <button class="cbk" onclick="goTo('sc','sl')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Salir
+    </button>
+  </nav>
+  <div class="pgwrap">
+    <div class="pgbar"><div class="pgfill" id="pgf" style="width:20%"></div></div>
+    <div class="pgdots" id="pgd">
+      <div class="pgd active" id="pd0"><div class="pgdc">01</div><div class="pgdl">Mensaje</div></div>
+      <div class="pgd" id="pd1"><div class="pgdc">02</div><div class="pgdl">Recuerdos</div></div>
+      <div class="pgd" id="pd2"><div class="pgdc">03</div><div class="pgdl">Fecha</div></div>
+      <div class="pgd" id="pd3"><div class="pgdc">04</div><div class="pgdl">Destino</div></div>
+      <div class="pgd" id="pd4"><div class="pgdc">05</div><div class="pgdl">Sellar</div></div>
+    </div>
+  </div>
+
+  <!-- STEP 0 -->
+  <div class="sp on" id="sp0">
+    <p class="sp-t">¿Qué quieres guardar?</p>
+    <p class="sp-s">Escribe lo que este momento necesita decir.</p>
+    <p class="thint" id="th">Escríbele a tu yo del futuro…</p>
+    <div class="lcard">
+      <div class="lh"><span class="lhf">Para quien sea que seas entonces,</span><span class="lhd" id="lhd"></span></div>
+      <div class="lb"><div class="lbl"></div><textarea id="msg" maxlength="2000" placeholder="Escríbele a tu yo del futuro…"></textarea></div>
+      <div class="lf"><span class="lfsg">Con cariño, quien eras hoy.</span><span class="lfcc"><span id="cn">0</span>/2000</span></div>
+    </div>
+    <div class="airow">
+      <span class="ailbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>IA</span>
+      <button class="aib" onclick="enhance('emocional')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Más emocional</span></button>
+      <button class="aib" onclick="enhance('profundo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg><span>Más profundo</span></button>
+      <button class="aib" onclick="enhance('directo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg><span>Más directo</span></button>
+      <span class="ast" id="ast"></span>
+    </div>
+    <div class="snav"><span></span><button class="bnx" onclick="nx()">Continuar<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="sp" id="sp1">
+    <p class="sp-t">Añade recuerdos</p>
+    <p class="sp-s">Imágenes que viajarán contigo al futuro. <span style="color:var(--dim)">Opcional.</span></p>
+    <div class="mtrow">
+      <div class="mtb sel" onclick="selMT(this,'image/*')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Imágenes</div>
+      <div class="mtb" onclick="selMT(this,'video/*')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Video</div>
+      <div class="mtb" onclick="selMT(this,'audio/*')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>Audio</div>
+    </div>
+    <div class="dz" id="dz" onclick="document.getElementById('fin').click()" ondragover="dzOv(event)" ondrop="dzDr(event)" ondragleave="dzLv()">
+      <svg class="dz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <div class="dz-t">Arrastra aquí o haz clic para buscar</div>
+      <div class="dz-s">JPG · PNG · GIF · MP4 · Máx 10MB</div>
+    </div>
+    <input type="file" id="fin" multiple accept="image/*" onchange="hFiles(this.files)">
+    <div class="mprev" id="mp"></div>
+    <div class="snav"><button class="bbk" onclick="pv()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Atrás</button><button class="bnx" onclick="nx()">Continuar<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="sp" id="sp2">
+    <p class="sp-t">¿Cuándo se abre?</p>
+    <p class="sp-s">Elige el momento exacto en que el futuro recibirá tu mensaje.</p>
+    <p class="dmicro" id="dm">"Ese día, esto volverá a ti."</p>
+    <div class="presets">
+      <div class="prst" onclick="setP(this,30)">En 1 mes</div>
+      <div class="prst" onclick="setP(this,180)">En 6 meses</div>
+      <div class="prst sel" onclick="setP(this,365)">En 1 año</div>
+      <div class="prst" onclick="setP(this,1825)">En 5 años</div>
+      <div class="prst" onclick="setP(this,3650)">En 10 años</div>
+      <div class="prst" onclick="opnC(this)">Fecha exacta…</div>
+    </div>
+    <div class="dcard">
+      <div class="dorb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div><div class="dm" id="dmn">En 1 año</div><div class="ds" id="dms">—</div></div>
+    </div>
+    <input type="date" id="cd" style="display:none" onchange="onCD(this.value)">
+    <div class="snav"><button class="bbk" onclick="pv()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Atrás</button><button class="bnx" onclick="nx()">Continuar<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="sp" id="sp3">
+    <p class="sp-t">¿Para quién es?</p>
+    <p class="sp-s">Decide quién recibirá esta cápsula y cómo llegará hasta sus manos.</p>
+    <div class="dests">
+      <div class="dbt sel" onclick="selD(this,'self')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span class="dbt-n">Para mí</span><span class="dbt-s">Mi yo del futuro</span></div>
+      <div class="dbt" onclick="selD(this,'other')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span class="dbt-n">Para alguien</span><span class="dbt-s">Pareja, amigo, familia</span></div>
+      <div class="dbt" onclick="selD(this,'link')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span class="dbt-n">Solo link</span><span class="dbt-s">Guardas el link</span></div>
+    </div>
+    <div id="emf" style="display:none">
+      <label class="lb2">Nombre del destinatario</label>
+      <input type="text" id="rn" placeholder="Ej: María">
+      <label class="lb2">Email del destinatario</label>
+      <input type="email" id="re" placeholder="maria@ejemplo.com">
+      <p style="font-size:12px;color:var(--dim);margin-top:-8px">Recibirá el link automáticamente al llegar la fecha.</p>
+    </div>
+    <div class="snav" style="margin-top:28px"><button class="bbk" onclick="pv()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Atrás</button><button class="bnx" onclick="nx()">Continuar<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="sp" id="sp4">
+    <p class="sp-t">Privacidad y sellado</p>
+    <p class="sp-s">Último paso. Elige cómo proteger tu cápsula.</p>
+    <div class="privrow">
+      <div class="pvb sel" onclick="selPv(this,'pub')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><div class="pvbn">Con link</div><div class="pvbd">Cualquiera con el link</div></div>
+      <div class="pvb" onclick="selPv(this,'priv')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg><div class="pvbn">Con código</div><div class="pvbd">Requiere código secreto</div></div>
+    </div>
+    <div id="cdf" style="display:none;margin-bottom:20px"><label class="lb2">Código secreto</label><input type="text" id="sc2" placeholder="Solo el destinatario sabrá esto…"></div>
+    <div class="divider"></div>
+    <div class="sumbox" id="sb"></div>
+    <button class="sealbtn" onclick="doSeal()">
+      <div class="swx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      Sellar mi cápsula
+    </button>
+    <div class="snav" style="justify-content:flex-start;margin-top:14px"><button class="bbk" onclick="pv()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Atrás</button></div>
+  </div>
+</div>
+
+<!-- SEAL OVERLAY -->
+<div id="sov">
+  <div class="sovsn">
+    <div class="env">
+      <div class="envltr" id="el"><div class="envllines"></div></div>
+      <div class="envbody"></div>
+      <div class="envtl"></div><div class="envtr"></div><div class="envbl"></div><div class="envbr"></div>
+      <div class="envflap" id="ef"></div>
+      <div class="wax" id="wx"><div class="wring"></div><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
+    </div>
+    <div class="sovt" id="sovt">Sellada.</div>
+    <div class="sovs" id="sovs">Tu momento quedó guardado en el tiempo.</div>
+  </div>
+</div>
+
+<!-- S3 CONFIRM -->
+<div id="s3" class="scr off">
+  <div class="conf">
+    <div class="csealic" id="csi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
+    <h2 class="ct">Tu cápsula ha sido sellada.</h2>
+    <p class="cs">Guardada, cifrada, lista para el momento exacto que elegiste.</p>
+    <div class="cbadge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="cbd">—</span></div>
+    <!-- FIX 8: id="ccp" added for unambiguous selector -->
+    <div class="lrow"><span class="lv" id="clv">capsulade.com/c/—</span><button class="cpbtn" id="ccp" onclick="cpL()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+    <p id="ccl" style="font-size:12px;color:var(--dim);font-family:var(--fm);margin-bottom:20px;text-align:left;display:none">Código: <span id="ccv" style="color:var(--glt)"></span></p>
+    <div class="scard">
+      <div class="sctag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Captura para compartir</div>
+      <div class="scmsg" id="scmsg">"He guardado algo para el futuro..."</div>
+      <div class="scm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="scd">—</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>Cifrada</div>
+      <div class="scbr">CápsulaDe</div>
+    </div>
+    <div class="shbtns">
+      <div class="shb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>WhatsApp</div>
+      <div class="shb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Instagram</div>
+      <div class="shb" onclick="cpL()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Copiar link</div>
+    </div>
+    <div class="confbtns">
+      <button class="btnew" onclick="goTo('s3','sl');resetAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Crear otra</button>
+      <button class="btndemo" onclick="startReveal()">Simular apertura<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<!-- S4 REVEAL -->
+<div id="s4" class="scr off">
+  <div class="rev">
+    <div class="revph on" id="rp1">
+      <div class="cdago" id="rago">Esta cápsula fue creada hace 1 año</div>
+      <h2 class="cdintro">Alguien guardó algo especialmente<br><em>para este momento.</em></h2>
+      <div class="cdn" id="cdn">3</div>
+      <div class="cdtrack"><div class="cdfill" id="cdfill"></div></div>
+    </div>
+    <div id="rp2"><div class="revenv"><div class="revenb"></div><div class="revenltr" id="rel"><div class="revenll"></div></div><div class="revflap" id="rfl"></div></div><p class="revopentxt" id="rot">Abriendo tu cápsula…</p></div>
+    <div id="rp3"><div class="rci"><div class="rfrom">Mensaje desde el pasado</div><div class="rmsg" id="rmsg"></div><div class="rimgs" id="rimgs"></div></div><div class="rcls"><p class="rclst">"Esto lo escribiste cuando eras<br>otra versión de ti."</p><button class="btnviral" onclick="goTo('s4','sl');resetAll()">Crear mi propia cápsula<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div></div>
+  </div>
+</div>
+
+<script>
+// ── FIX 9: API key should be set as an environment variable or via your backend.
+// Replace 'TU_API_KEY_AQUI' with your actual Anthropic API key.
+const API_KEY = 'TU_API_KEY_AQUI';
+
+const S = {msg:'', days:365, dest:'self', rn:'', re:'', priv:'pub', code:'', token:'', imgs:[], od:null};
+let step = 0;
+
+// ── FIX 4: goTo uses element.scrollTop instead of window.scrollTo
+// because .scr elements are position:fixed with overflow-y:auto
+function goTo(f, t) {
+  const fe = document.getElementById(f), te = document.getElementById(t);
+  fe.classList.add('exit-up');
+  setTimeout(() => {
+    fe.classList.add('off');
+    fe.classList.remove('exit-up');
+    te.classList.remove('off');
+    te.scrollTop = 0; // FIX: scroll the target element, not the window
+  }, 600);
+}
+
+// ── CANVAS ──
+(function() {
+  const c = document.getElementById('bc'), ctx = c.getContext('2d');
+  let stars = [];
+  function resize() { c.width = innerWidth; c.height = innerHeight; init(); }
+  function init() {
+    stars = [];
+    for (let i = 0; i < 180; i++)
+      stars.push({x:Math.random()*c.width, y:Math.random()*c.height, r:Math.random()*1.4+.1, a:Math.random()*.9+.1, sp:.0003+Math.random()*.0009, ph:Math.random()*Math.PI*2, vx:(Math.random()-.5)*.018, vy:(Math.random()-.5)*.018});
+  }
+  function draw(t) {
+    ctx.clearRect(0, 0, c.width, c.height);
+    stars.forEach(s => {
+      s.x += s.vx; s.y += s.vy;
+      if (s.x < 0) s.x = c.width; if (s.x > c.width) s.x = 0;
+      if (s.y < 0) s.y = c.height; if (s.y > c.height) s.y = 0;
+      const al = s.a * (0.35 + 0.65 * Math.sin(s.ph + t * s.sp * 900));
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(210,185,140,${al})`; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  resize(); window.addEventListener('resize', resize); requestAnimationFrame(draw);
+})();
+
+// ── BURST ──
+function doBurst(x, y) {
+  const c = document.getElementById('burc'), ctx = c.getContext('2d');
+  c.width = innerWidth; c.height = innerHeight;
+  const ps = [];
+  for (let i = 0; i < 100; i++) {
+    const a = Math.PI*2/100*i, sp = 1.5 + Math.random()*6;
+    ps.push({x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp-.8, life:1, r:1.5+Math.random()*4, h:28+Math.random()*24, s:60+Math.random()*30, l:48+Math.random()*32});
+  }
+  function anim() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    let alive = false;
+    ps.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.vy += .1; p.life -= .016;
+      if (p.life > 0) { alive = true; ctx.globalAlpha = p.life*p.life; ctx.fillStyle = `hsl(${p.h},${p.s}%,${p.l}%)`; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill(); }
+    });
+    ctx.globalAlpha = 1;
+    if (alive) requestAnimationFrame(anim); else ctx.clearRect(0, 0, c.width, c.height);
+  }
+  requestAnimationFrame(anim);
+}
+
+// ── LANDING WORDS ──
+(function() {
+  const words = [{t:'Escribe',c:''},{t:'algo',c:''},{t:'hoy…',c:'gold'},{t:'y',c:'dim'},{t:'recíbelo',c:'dim'},{t:'en el',c:'dim'},{t:'futuro.',c:'dim'}];
+  const h = document.getElementById('lh1');
+  h.innerHTML = words.map((w,i) => `<span class="lw ${w.c}" style="transition-delay:${.7+i*.09}s">${w.t} </span>`).join('');
+  setTimeout(() => document.querySelectorAll('.lw').forEach(w => w.classList.add('in')), 100);
+})();
+
+document.getElementById('lhd').textContent = new Date().toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'});
+
+document.getElementById('msg').addEventListener('input', function() {
+  S.msg = this.value;
+  document.getElementById('cn').textContent = this.value.length;
+});
+
+// FIX 2: Save recipient fields to state as user types
+document.getElementById('rn').addEventListener('input', function() { S.rn = this.value; });
+document.getElementById('re').addEventListener('input', function() { S.re = this.value; });
+
+// ── HINTS ──
+const hints = ["Escríbele a tu yo del futuro…","¿Qué no quieres olvidar de este momento?","¿Qué consejo le darías a quien serás?","¿Qué te haría sonreír dentro de cinco años?","¿Qué sueño tienes hoy que quieres recordar?"];
+let hi = 0;
+setInterval(() => {
+  const el = document.getElementById('th');
+  el.style.opacity = '0';
+  setTimeout(() => { hi = (hi+1) % hints.length; el.textContent = hints[hi]; el.style.opacity = '1'; }, 380);
+}, 4500);
+
+// ── AI ──
+const prs = {
+  emocional: 'Reescribe este mensaje para una cápsula del tiempo haciéndolo más emotivo y que toque el corazón. Mantén la esencia pero amplifica los sentimientos. Devuelve SOLO el texto reescrito:',
+  profundo: 'Reescribe este mensaje para una cápsula del tiempo haciéndolo más reflexivo y profundo sobre el paso del tiempo. Devuelve SOLO el texto:',
+  directo: 'Reescribe este mensaje para que sea más directo y poderoso. Cada palabra debe contar. Devuelve SOLO el texto:'
+};
+
+async function enhance(style) {
+  const txt = document.getElementById('msg').value.trim();
+  if (!txt) { flashMsg('Primero escribe algo en tu carta.'); return; }
+  document.querySelectorAll('.aib').forEach(b => b.classList.add('load'));
+  document.getElementById('ast').textContent = 'Reescribiendo…';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'anthropic-version': '2023-06-01',
+        // FIX 1: Required header for browser-side API calls
+        'anthropic-dangerous-allow-browser': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 700,
+        messages: [{role:'user', content:`${prs[style]}\n\n"${txt}"`}]
+      })
+    });
+    const d = await res.json();
+    if (d.content && d.content[0]) {
+      document.getElementById('msg').value = d.content[0].text.trim();
+      S.msg = document.getElementById('msg').value;
+      document.getElementById('cn').textContent = S.msg.length;
+      document.getElementById('ast').textContent = '✓';
+      setTimeout(() => document.getElementById('ast').textContent = '', 2000);
+    } else {
+      document.getElementById('ast').textContent = 'Error';
+    }
+  } catch(e) {
+    document.getElementById('ast').textContent = 'Error de conexión';
+    console.error('API error:', e);
+  }
+  document.querySelectorAll('.aib').forEach(b => b.classList.remove('load'));
+}
+
+function flashMsg(m) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#140a0a;border:1px solid rgba(200,50,50,.35);border-radius:10px;padding:12px 24px;color:#f08080;font-size:13px;z-index:9999;pointer-events:none;';
+  t.textContent = m;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
+
+// ── STEPS ──
+function updStep() {
+  const pct = [20, 40, 60, 80, 100];
+  document.getElementById('pgf').style.width = pct[step] + '%';
+  for (let i = 0; i < 5; i++) {
+    const pd = document.getElementById('pd'+i), sp = document.getElementById('sp'+i);
+    pd.classList.remove('active', 'done');
+    sp && sp.classList.remove('on');
+    if (i === step) { pd.classList.add('active'); sp && sp.classList.add('on'); }
+    if (i < step) pd.classList.add('done');
+  }
+  if (step === 4) buildSum();
+}
+
+// FIX 7: Validate message is not empty before leaving step 0
+function nx() {
+  if (step === 0 && !S.msg.trim()) {
+    flashMsg('Escribe algo antes de continuar.');
+    document.getElementById('msg').focus();
+    return;
+  }
+  step = Math.min(4, step+1);
+  updStep();
+  // Scroll the create screen container to top
+  document.getElementById('sc').scrollTop = 0;
+}
+
+function pv() {
+  step = Math.max(0, step-1);
+  updStep();
+  document.getElementById('sc').scrollTop = 0;
+}
+
+// ── MEDIA ──
+function selMT(el, acc) {
+  document.querySelectorAll('.mtb').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('fin').accept = acc;
+}
+function dzOv(e) { e.preventDefault(); document.getElementById('dz').classList.add('over'); }
+function dzLv() { document.getElementById('dz').classList.remove('over'); }
+function dzDr(e) { e.preventDefault(); dzLv(); hFiles(e.dataTransfer.files); }
+function hFiles(files) {
+  const mp = document.getElementById('mp');
+  Array.from(files).slice(0, 8).forEach(f => {
+    if (!f.type.startsWith('image/')) return;
+    const url = URL.createObjectURL(f);
+    S.imgs.push(url);
+    const div = document.createElement('div'); div.className = 'mthumb';
+    const img = document.createElement('img'); img.src = url;
+    const btn = document.createElement('button'); btn.className = 'rm';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    btn.onclick = e => { e.stopPropagation(); S.imgs.splice(S.imgs.indexOf(url), 1); div.remove(); };
+    div.append(img, btn); mp.append(div);
+  });
+}
+
+// ── DATE ──
+const micros = ['"Ese día, esto volverá a ti."','"Las palabras permanecen cuando todo cambia."','"El tiempo es el mejor guardián de secretos."','"Un regalo que solo el futuro puede abrir."'];
+function setP(el, d) {
+  S.days = d;
+  document.getElementById('cd').style.display = 'none';
+  document.querySelectorAll('.prst').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  updDate(d, null);
+}
+function opnC(el) {
+  document.querySelectorAll('.prst').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  const cd = document.getElementById('cd');
+  cd.style.display = 'block';
+  const mn = new Date(); mn.setDate(mn.getDate()+1);
+  cd.min = mn.toISOString().split('T')[0];
+}
+function onCD(v) {
+  const t = new Date(v + 'T12:00:00');
+  S.days = Math.max(1, Math.round((t - new Date()) / 86400000));
+  updDate(S.days, t);
+}
+function updDate(d, t) {
+  S.od = t || (() => { const dt = new Date(); dt.setDate(dt.getDate()+d); return dt; })();
+  const fmt = S.od.toLocaleDateString('es-ES', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  let m = d < 60 ? `En ${d} días` : d < 365 ? `En ${Math.round(d/30)} meses` : d === 365 ? 'En 1 año' : `En ${+(d/365).toFixed(1).replace('.0','')} años`;
+  document.getElementById('dmn').textContent = m;
+  document.getElementById('dms').textContent = 'Se abrirá el ' + fmt;
+  document.getElementById('dm').textContent = micros[Math.floor(Math.random()*micros.length)];
+}
+updDate(365, null);
+
+function selD(el, t) {
+  S.dest = t;
+  document.querySelectorAll('.dbt').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('emf').style.display = t === 'other' ? 'block' : 'none';
+}
+
+function selPv(el, t) {
+  S.priv = t;
+  document.querySelectorAll('.pvb').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('cdf').style.display = t === 'priv' ? 'block' : 'none';
+}
+
+// FIX 3: buildSum reads from S state, not raw DOM
+function buildSum() {
+  const dm = {'self':'Para ti mismo', 'other':`Para ${S.rn || 'alguien especial'}`, 'link':'Solo con link'};
+  const ds = S.od ? S.od.toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'}) : '—';
+  const rows = [
+    ['Mensaje', S.msg ? '"' + S.msg.slice(0, 55) + (S.msg.length > 55 ? '…' : '') + '"' : '(vacío)'],
+    ['Imágenes', S.imgs.length + ' adjuntas'],
+    ['Apertura', ds],
+    ['Destino', dm[S.dest]],
+    ['Privacidad', S.priv === 'pub' ? 'Con link' : 'Con código']
+  ];
+  document.getElementById('sb').innerHTML = rows.map(([k,v]) => `<div class="srow"><span class="srk">${k}</span><span class="srv">${v}</span></div>`).join('');
+}
+
+// ── AUDIO ──
+function snd(t) {
+  try {
+    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    if (t === 'thud') {
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.frequency.setValueAtTime(110, ac.currentTime);
+      o.frequency.exponentialRampToValueAtTime(25, ac.currentTime+.2);
+      g.gain.setValueAtTime(.45, ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001, ac.currentTime+.32);
+      o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime+.32);
+    }
+    if (t === 'paper') {
+      const buf = ac.createBuffer(1, ac.sampleRate*.2, ac.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = (Math.random()*2-1) * Math.exp(-i/(ac.sampleRate*.06));
+      const s = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+      s.buffer = buf; f.type = 'bandpass'; f.frequency.value = 3000; f.Q.value = .4;
+      g.gain.setValueAtTime(.15, ac.currentTime);
+      s.connect(f); f.connect(g); g.connect(ac.destination); s.start();
+    }
+  } catch(e) {}
+}
+
+function mkTok() {
+  const c = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  let t = '';
+  for (let i = 0; i < 9; i++) t += c[Math.floor(Math.random()*c.length)];
+  return t;
+}
+
+// ── SEAL ──
+function doSeal() {
+  S.token = mkTok();
+  if (S.priv === 'priv') S.code = document.getElementById('sc2').value;
+  const ov = document.getElementById('sov');
+  ov.classList.add('on');
+  snd('paper');
+  document.getElementById('ef').classList.remove('shut');
+  setTimeout(() => { document.getElementById('el').classList.add('down'); snd('paper'); }, 500);
+  setTimeout(() => { document.getElementById('ef').classList.add('shut'); snd('paper'); }, 1300);
+  setTimeout(() => {
+    document.getElementById('wx').classList.add('pop');
+    snd('thud');
+    const r = document.getElementById('wx').getBoundingClientRect();
+    doBurst(r.left + r.width/2, r.top + r.height/2);
+  }, 2500);
+  setTimeout(() => { document.getElementById('sovt').classList.add('on'); document.getElementById('sovs').classList.add('on'); }, 3200);
+  setTimeout(() => {
+    ov.classList.remove('on');
+    fillConf();
+    goTo('sc', 's3');
+    setTimeout(() => {
+      document.getElementById('el').classList.remove('down');
+      document.getElementById('ef').classList.remove('shut');
+      document.getElementById('wx').classList.remove('pop');
+      document.getElementById('sovt').classList.remove('on');
+      document.getElementById('sovs').classList.remove('on');
+    }, 600);
+  }, 5100);
+}
+
+function fillConf() {
+  const link = 'capsulade.com/c/' + S.token;
+  document.getElementById('clv').textContent = link;
+  const ds = S.od ? S.od.toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'}) : '—';
+  document.getElementById('cbd').textContent = 'Se abre el ' + ds;
+  document.getElementById('scd').textContent = ds;
+  document.getElementById('scmsg').textContent = S.msg ? '"' + S.msg.slice(0, 88) + (S.msg.length > 88 ? '…"' : '"') : 'Una cápsula guardada para el futuro.';
+  if (S.priv === 'priv' && S.code) {
+    document.getElementById('ccl').style.display = 'block';
+    document.getElementById('ccv').textContent = S.code;
+  } else {
+    document.getElementById('ccl').style.display = 'none';
+  }
+  // Replay the pop animation by forcing a reflow
+  const si = document.getElementById('csi');
+  si.style.animation = 'none';
+  void si.offsetWidth;
+  si.style.animation = '';
+}
+
+// FIX 8: Use specific ID #ccp to avoid ambiguity with share buttons
+function cpL() {
+  const t = document.getElementById('clv').textContent;
+  navigator.clipboard.writeText(t).catch(() => {});
+  const b = document.getElementById('ccp');
+  if (b) {
+    const orig = b.innerHTML;
+    b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12"><polyline points="20 6 9 17 4 12"/></svg>Copiado';
+    setTimeout(() => b.innerHTML = orig, 2000);
+  }
+}
+
+// ── REVEAL ──
+// FIX 5 & 6: Fully reset all phase state before starting reveal
+function startReveal() {
+  goTo('s3', 's4');
+
+  const rp1 = document.getElementById('rp1');
+  const rp2 = document.getElementById('rp2');
+  const rp3 = document.getElementById('rp3');
+
+  // Clear any inline styles set during a previous run
+  rp1.style.display = '';
+  rp1.className = 'revph on';
+  rp2.style.display = 'none';
+  rp2.className = '';
+  rp3.style.display = 'none';
+  rp3.className = '';
+
+  // Reset envelope elements
+  document.getElementById('rfl').classList.remove('opened');
+  document.getElementById('rel').classList.remove('rise');
+  document.getElementById('rot').classList.remove('on');
+
+  // Reset countdown display
+  const cdn = document.getElementById('cdn');
+  cdn.textContent = '3';
+  cdn.style.fontSize = '';
+  cdn.classList.remove('flash');
+
+  // Reset progress bar without transition flicker
+  const fill = document.getElementById('cdfill');
+  fill.style.transition = 'none';
+  fill.style.transform = 'scaleX(1)';
+  setTimeout(() => fill.style.transition = '', 50);
+
+  const d = S.days;
+  document.getElementById('rago').textContent = d >= 365
+    ? `Esta cápsula fue creada hace ${Math.round(d/365)} año${d >= 730 ? 's' : ''}`
+    : `Esta cápsula fue creada hace ${Math.round(d/30)} mes${d >= 60 ? 'es' : ''}`;
+
+  let n = 3;
+  function tick() {
+    cdn.classList.add('flash');
+    setTimeout(() => {
+      n--;
+      if (n > 0) {
+        cdn.textContent = n;
+        cdn.classList.remove('flash');
+        fill.style.transform = `scaleX(${n/3})`;
+        setTimeout(tick, 1000);
+      } else {
+        cdn.textContent = '✦';
+        cdn.style.fontSize = '80px';
+        cdn.classList.remove('flash');
+        fill.style.transform = 'scaleX(0)';
+        setTimeout(revP2, 700);
+      }
+    }, 150);
+  }
+  setTimeout(tick, 1500);
+}
+
+function revP2() {
+  const rp1 = document.getElementById('rp1');
+  rp1.classList.remove('on');
+  // Use inline style to override CSS — cleared in startReveal on next run
+  rp1.style.display = 'none';
+
+  const p2 = document.getElementById('rp2');
+  p2.style.display = 'flex';
+  p2.className = 'on';
+
+  setTimeout(() => document.getElementById('rfl').classList.add('opened'), 400);
+  setTimeout(() => document.getElementById('rel').classList.add('rise'), 900);
+  setTimeout(() => document.getElementById('rot').classList.add('on'), 1000);
+  setTimeout(revP3, 3000);
+}
+
+function revP3() {
+  const p2 = document.getElementById('rp2');
+  p2.style.display = 'none';
+  p2.className = '';
+
+  const p3 = document.getElementById('rp3');
+  p3.style.display = 'block';
+  p3.className = 'on';
+
+  const txt = S.msg || 'Hola.\n\nEsto fue escrito hace un tiempo, cuando eras quien eras entonces.\n\nEspero que estés bien. Espero que hayas crecido, amado, fallado y te hayas levantado.\n\nEste momento también fue real.\n\nGuárdalo.';
+  const el = document.getElementById('rmsg');
+  el.innerHTML = '';
+  txt.split(/(\s+)/).forEach((w, i) => {
+    const sp = document.createElement('span');
+    sp.className = 'rw';
+    sp.textContent = w;
+    sp.style.animationDelay = `${i*.04}s`;
+    el.appendChild(sp);
+  });
+  setTimeout(() => el.querySelectorAll('.rw').forEach(w => w.classList.add('sh')), 100);
+
+  const imgEl = document.getElementById('rimgs');
+  imgEl.innerHTML = '';
+  S.imgs.forEach((url, i) => {
+    const img = document.createElement('img');
+    img.src = url; img.className = 'rimg';
+    img.style.animationDelay = `${1+i*.15}s`;
+    imgEl.appendChild(img);
+  });
+}
+
+// FIX 6: resetAll fully restores all state including reveal phases
+function resetAll() {
+  S.msg = ''; S.days = 365; S.dest = 'self'; S.rn = ''; S.re = '';
+  S.priv = 'pub'; S.code = ''; S.token = ''; S.imgs = []; S.od = null;
+  step = 0;
+
+  // Reset form fields
+  document.getElementById('msg').value = '';
+  document.getElementById('cn').textContent = '0';
+  document.getElementById('mp').innerHTML = '';
+  document.getElementById('rn').value = '';
+  document.getElementById('re').value = '';
+  document.getElementById('sc2').value = '';
+
+  // Reset presets
+  document.querySelectorAll('.prst').forEach((b, i) => b.classList.toggle('sel', i === 2));
+  document.getElementById('cd').style.display = 'none';
+  updDate(365, null);
+
+  // Reset destination
+  document.querySelectorAll('.dbt').forEach((b, i) => b.classList.toggle('sel', i === 0));
+  document.getElementById('emf').style.display = 'none';
+
+  // Reset privacy
+  document.querySelectorAll('.pvb').forEach((b, i) => b.classList.toggle('sel', i === 0));
+  document.getElementById('cdf').style.display = 'none';
+
+  // Reset reveal state (clear inline styles that override CSS)
+  const rp1 = document.getElementById('rp1');
+  rp1.style.display = '';
+  rp1.className = 'revph on';
+  document.getElementById('rp2').style.display = 'none';
+  document.getElementById('rp2').className = '';
+  document.getElementById('rp3').style.display = 'none';
+  document.getElementById('rp3').className = '';
+  document.getElementById('rfl').classList.remove('opened');
+  document.getElementById('rel').classList.remove('rise');
+  document.getElementById('rot').classList.remove('on');
+
+  // Reset countdown
+  const cdn = document.getElementById('cdn');
+  cdn.textContent = '3';
+  cdn.style.fontSize = '';
+  cdn.classList.remove('flash');
+  const fill = document.getElementById('cdfill');
+  fill.style.transition = 'none';
+  fill.style.transform = 'scaleX(1)';
+  setTimeout(() => fill.style.transition = '', 50);
+
+  // Update step UI
+  updStep();
+}
+</script>
+</body>
+</html>
