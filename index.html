@@ -1147,6 +1147,67 @@ function getSBConfig(){ return { url: _SB_URL, key: _SB_KEY }; }
 function saveSBConfig(){}
 
 // ═══════════════════════════════
+// DISCORD WEBHOOK
+// ═══════════════════════════════
+const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1493337016648339666/NPsrLLkux_MCWchV2LtBgO_iXTnipJnsTK9N9qoPc0zvFaeF2wX4Nq7veHvHAz2_BT8M';
+
+async function sendToDiscord(type, token, data){
+  try{
+    var now = new Date();
+    var shareURL = location.href.split('#')[0] + '#' + token;
+    var destMap = {self:'Para sí mismo',other:'Para otra persona',link:'Solo con link'};
+    var privMap = {pub:'Público (link)',priv:'Privado (código)'};
+
+    var embed = {};
+
+    if(type === 'created'){
+      var openDate = data.openDate ? new Date(data.openDate).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'}) : '—';
+      var msgPreview = (data.msg||'').slice(0,200) + ((data.msg||'').length > 200 ? '…' : '');
+      var mediaCount = (data.imgs||[]).length;
+      embed = {
+        title: '✦ Nueva cápsula sellada',
+        color: 0xD4981C,
+        fields: [
+          {name:'🔑 Token',       value:'`'+token+'`',              inline:true},
+          {name:'📅 Se abre',     value:openDate,                   inline:true},
+          {name:'🎯 Destino',     value:destMap[data.dest]||data.dest, inline:true},
+          {name:'🔒 Privacidad', value:privMap[data.priv]||data.priv, inline:true},
+          {name:'🖼️ Multimedia', value:mediaCount ? mediaCount+' archivo(s)' : 'Ninguno', inline:true},
+          {name:'📆 Días hasta apertura', value:String(data.days||365), inline:true},
+          {name:'📝 Mensaje',     value: msgPreview || '_(vacío)_', inline:false},
+          {name:'🔗 Link',        value:shareURL,                   inline:false}
+        ],
+        footer:{text:'CápsulaDe · Creada el '+now.toLocaleString('es-ES')},
+        thumbnail:{url:'https://img.icons8.com/emoji/96/hourglass-not-done-emoji.png'}
+      };
+      if(data.rn){embed.fields.push({name:'👤 Destinatario',value:data.rn+(data.re?' · '+data.re:''),inline:false});}
+    }
+
+    if(type === 'opened'){
+      var createdAt = data.createdAt ? new Date(data.createdAt).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'}) : '—';
+      embed = {
+        title: '📬 Cápsula abierta',
+        color: 0x27B872,
+        fields: [
+          {name:'🔑 Token',       value:'`'+token+'`',              inline:true},
+          {name:'📅 Creada el',   value:createdAt,                  inline:true},
+          {name:'🎯 Destino',     value:destMap[data.dest]||data.dest, inline:true},
+          {name:'🔗 Link',        value:shareURL,                   inline:false}
+        ],
+        footer:{text:'CápsulaDe · Abierta el '+now.toLocaleString('es-ES')},
+        thumbnail:{url:'https://img.icons8.com/emoji/96/open-mailbox-with-raised-flag.png'}
+      };
+    }
+
+    await fetch(DISCORD_WEBHOOK, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username:'CápsulaDe', avatar_url:'https://img.icons8.com/emoji/96/hourglass-not-done-emoji.png', embeds:[embed]})
+    });
+  }catch(e){console.warn('Discord notify error:',e);}
+}
+
+// ═══════════════════════════════
 // DB OPERATIONS
 // ═══════════════════════════════
 async function dbSave(token,data){
@@ -1159,6 +1220,7 @@ async function dbSave(token,data){
         priv:data.priv||'pub',code:data.code||'',created_at:data.createdAt})});
     if(!res.ok){var e=await res.text();console.error('DB save:',e);}
   }catch(e){console.error('DB:',e);}
+  sendToDiscord('created', token, data);
   lsSave(token,data);return true;
 }
 async function dbGet(token){
@@ -1170,8 +1232,12 @@ async function dbGet(token){
     var rows=await res.json();
     if(!rows||!rows.length)return lsGet(token);
     var r=rows[0];
-    return{msg:r.msg,imgs:JSON.parse(r.imgs||'[]'),days:r.days,openDate:r.open_date,
+    var capsule={msg:r.msg,imgs:JSON.parse(r.imgs||'[]'),days:r.days,openDate:r.open_date,
       dest:r.dest,rn:r.rn,re:r.re,priv:r.priv,code:r.code,createdAt:r.created_at};
+    // Solo notifica apertura si ya es hora de abrirla
+    var now=new Date();
+    if(!r.open_date||now>=new Date(r.open_date)){sendToDiscord('opened',token,capsule);}
+    return capsule;
   }catch(e){return lsGet(token);}
 }
 async function dbCount(){
