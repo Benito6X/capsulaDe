@@ -244,7 +244,56 @@ canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 .sp-s{font-size:13px;color:var(--warm);margin-bottom:26px;font-weight:300}
 .db-status{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-family:var(--mono);color:var(--muted);padding:5px 12px;border-radius:100px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);margin-bottom:16px;}
 .db-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);transition:background .3s}
-.db-dot.online{background:#3ECF8E;box-shadow:0 0 6px rgba(62,207,142,.6)}
+.db-dot.warning{
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(212,152,28,.18),
+    rgba(212,152,28,.05)
+  );
+
+  border: 1px solid rgba(212,152,28,.35);
+
+  box-shadow:
+    0 4px 16px rgba(212,152,28,.18),
+    inset 0 0 8px rgba(212,152,28,.12);
+
+  backdrop-filter: blur(6px);
+}
+
+/* Icono simplificado (línea + punto en vez de triángulo pesado) */
+.db-dot.warning::before{
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  transform: translateX(-50%);
+
+  width: 2px;
+  height: 6px;
+  border-radius: 2px;
+
+  background: rgba(212,152,28,.9);
+}
+
+/* Punto inferior */
+.db-dot.warning::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  transform: translateX(-50%);
+
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+
+  background: rgba(212,152,28,.9);
+}
 .db-dot.error{background:var(--err);box-shadow:0 0 6px rgba(200,64,80,.6)}
 .lcard{border-radius:22px;overflow:hidden;margin-bottom:22px;cursor:text;will-change:transform,box-shadow;transition:box-shadow .7s var(--silk),transform .5s var(--spring);box-shadow:0 22px 66px rgba(0,0,0,.58),0 0 0 1px rgba(255,255,255,.045),inset 0 1px 0 rgba(255,255,255,.065);animation:lcPulse 9s ease-in-out infinite;}
 @keyframes lcPulse{0%,100%{box-shadow:0 22px 66px rgba(0,0,0,.58),0 0 0 1px rgba(255,255,255,.045)}50%{box-shadow:0 28px 72px rgba(0,0,0,.63),0 0 0 1px rgba(212,152,28,.2),0 0 60px rgba(212,152,28,.09)}}
@@ -1266,7 +1315,7 @@ function getKey(){return localStorage.getItem(CMK)||_CL_KEY;}
 
 function updateDBStatus(online){
   var dot=document.getElementById('db-dot'),lbl=document.getElementById('db-lbl');if(!dot)return;
-  if(online){dot.className='db-dot online';lbl.textContent='Supabase conectado';}
+  if(online){dot.className='db-dot warning';lbl.textContent='Versión en desarrollo';}
   else{dot.className='db-dot error';lbl.textContent='Verificando…';}
 }
 (function(){
