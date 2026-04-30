@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#06040f" />
-<title>CápsulaDe V4 — Experiencias del futuro</title>
+<title>CápsulaDe V6 OpenAI — Experiencias del futuro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -93,7 +93,55 @@ textarea{min-height:178px;resize:none;line-height:1.7;font-family:var(--serif);f
 .lettertop{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:24px;color:var(--accent);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.16em}.seal{height:10px;flex:1;max-width:260px;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:.35}
 .message{font-family:var(--serif);font-size:clamp(24px,4.2vw,42px);line-height:1.48;letter-spacing:-.025em;white-space:pre-wrap}.message .word{opacity:0;animation:wordIn .42s var(--ease) forwards}@keyframes wordIn{from{opacity:0;filter:blur(5px);transform:translateY(6px)}to{opacity:1;filter:blur(0);transform:none}}
 .mediaout{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:28px}.mediaout img,.mediaout video{width:100%;height:190px;object-fit:cover;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:#000}.mediaout audio{width:100%;grid-column:1/-1}
-@media(max-width:520px){.app{padding-inline:12px}.hero h2{font-size:48px}.phone{margin-inline:-2px}.screen{min-height:auto}.privacy,.datecards{grid-template-columns:1fr}.timer{grid-template-columns:repeat(2,1fr)}.navbtns{position:sticky;bottom:8px;background:linear-gradient(180deg,transparent,rgba(5,3,12,.95) 25%);padding-top:12px}.letter{border-radius:26px}.message{font-size:25px}.aibtns{grid-template-columns:1fr}}
+
+.noticepro{margin-top:22px;border:1px solid rgba(244,193,93,.22);border-radius:24px;padding:18px 18px;background:linear-gradient(135deg,rgba(255,255,255,.04),rgba(244,193,93,.06));box-shadow:0 12px 30px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08);color:var(--text)}
+.noticepro b{color:var(--accent)}
+.noticepro span{display:block;color:var(--muted);margin-top:6px;font-size:13px;line-height:1.7}
+.filetools{display:grid;gap:12px;margin-top:14px}
+.voicebox{border:1px solid rgba(255,255,255,.08);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));padding:14px}
+.voicehead{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.voicehead b{font-size:14px}
+.voicehead span{font-size:12px;color:var(--muted)}
+.voiceactions{display:flex;gap:10px;flex-wrap:wrap}
+.voicechip{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:var(--text);border-radius:999px;padding:10px 14px;font-weight:700;font-size:13px}
+.voicechip.live{border-color:rgba(255,107,122,.45);color:#ffd6dc;box-shadow:0 0 0 1px rgba(255,107,122,.1),0 0 20px rgba(255,107,122,.12) inset}
+.voicepreview{margin-top:12px;display:none}.voicepreview.on{display:block}
+.voicepreview audio{width:100%}
+.voicepreview p{font-size:12px;color:var(--muted);margin-top:8px}
+.whenwrap{display:grid;gap:14px;margin-top:18px}
+.whenhero{border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));display:grid;gap:10px}
+.whenhero .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.whenhero .big{font-family:var(--serif);font-size:22px;letter-spacing:-.03em;line-height:1.15}
+.whenhero .minihelp{color:var(--muted);font-size:13px;line-height:1.75}
+.quickgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.quickgrid button,.datecards button{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.02));border-radius:22px;padding:18px 16px;text-align:left;color:var(--text);min-height:86px;transition:transform .25s var(--ease),border-color .25s var(--ease),box-shadow .25s var(--ease)}
+.quickgrid button::after,.datecards button::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 10% 10%,var(--accentGlow),transparent 48%);opacity:0;transition:opacity .25s}
+.quickgrid button.active,.datecards button.active{border-color:rgba(244,193,93,.45);box-shadow:0 16px 34px rgba(0,0,0,.22),0 0 0 1px rgba(244,193,93,.12) inset;transform:translateY(-1px)}
+.quickgrid button.active::after,.datecards button.active::after{opacity:1}
+.quickgrid button b,.datecards button{font-size:16px;font-weight:800;line-height:1.1}
+.quickgrid button small,.datecards button small{display:block;margin-top:7px;color:var(--muted);font-size:12px;line-height:1.4}
+.datecards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:0}
+.datetimebox{border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:14px;background:rgba(255,255,255,.025);display:grid;gap:10px}
+.datetimebox label{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.02em}
+.inputicon{position:relative}.inputicon input{padding-right:50px}
+.inputicon::after{content:"⏱";position:absolute;right:16px;top:50%;transform:translateY(-50%);opacity:.55;font-size:18px}
+.datetimehelp{font-size:12px;color:var(--muted)}
+.minbadge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:rgba(244,193,93,.08);border:1px solid rgba(244,193,93,.18);padding:8px 12px;color:var(--text);font-size:12px}
+.sumrow{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.sumrow:last-child{border-bottom:0}
+.sumrow span{color:var(--muted);font-size:12px}.sumrow b{font-size:13px;text-align:right}
+
+
+.sharebox{display:none;margin-top:18px;border:1px solid rgba(255,255,255,.09);border-radius:22px;padding:14px;background:rgba(255,255,255,.035)}
+.sharebox.on{display:block;animation:enter .42s var(--ease) both}
+.sharetitle{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.sharelink{font-size:12px;color:var(--muted);word-break:break-all;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:11px;background:rgba(0,0,0,.18);margin-bottom:10px}
+.sharebuttons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sharebuttons button{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:var(--text);border-radius:16px;padding:12px 10px;font-size:12px;font-weight:800}
+.sharebuttons button.primaryshare{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#170d04;border-color:transparent}
+@media(max-width:520px){.sharebuttons{grid-template-columns:1fr}.sharebuttons button{padding:14px}}
+
+@media(max-width:520px){.app{padding-inline:12px}.hero h2{font-size:48px}.phone{margin-inline:-2px}.screen{min-height:auto}.privacy,.datecards,.quickgrid{grid-template-columns:1fr}.timer{grid-template-columns:repeat(2,1fr)}.navbtns{position:sticky;bottom:8px;background:linear-gradient(180deg,transparent,rgba(5,3,12,.95) 25%);padding-top:12px}.letter{border-radius:26px}.message{font-size:25px}.aibtns{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -102,24 +150,25 @@ textarea{min-height:178px;resize:none;line-height:1.7;font-family:var(--serif);f
 <div class="app" id="app">
   <header class="topbar">
     <div class="brand"><div class="mark">C</div><h1>Cápsula<em>De</em></h1></div>
-    <div class="net" id="net"><i></i><span>Comprobando backend</span></div>
+    <div class="net" id="net"><i></i><span>Comprobando Supabase</span></div>
   </header>
 
   <main id="home">
     <section class="grid">
       <div class="hero">
-        <div class="kicker">Nueva arquitectura · segura · real</div>
+        <div class="kicker">Supabase Cloud · segura · real</div>
         <h2>Guarda un momento. <span>Abre una</span><em>experiencia.</em></h2>
-        <p class="lead">Esta versión no finge producción: las cápsulas se guardan en backend, se abren desde cualquier dispositivo, la IA vive en servidor y las cápsulas cerradas tienen contador real segundo a segundo.</p>
+        <p class="lead">Esta versión ya usa Supabase real: las cápsulas se guardan en la nube, se abren desde cualquier dispositivo y las cápsulas cerradas muestran un contador vivo segundo a segundo.</p>
         <div class="hero-actions">
           <button class="btn primary" onclick="scrollCreator()">Crear cápsula</button>
           <button class="btn" onclick="showDemoReveal()">Ver apertura demo</button>
         </div>
+        <div class="noticepro"><b>Cloud Base:</b> la cápsula se guarda en Supabase usando RPC. No se usa localStorage como sistema principal.<span>La experiencia ya es compartible entre dispositivos. El siguiente paso es conectar OpenAI real con un backend seguro.</span></div>
         <div class="pillrow">
-          <div class="mini"><b>Servidor</b> para compartir entre dispositivos</div>
-          <div class="mini"><b>Claude</b> desde API segura</div>
+          <div class="mini"><b>Supabase</b> para compartir entre dispositivos</div>
+          <div class="mini"><b>OpenAI</b> integrado vía backend seguro</div>
           <div class="mini"><b>Timer</b> vivo por segundos</div>
-          <div class="mini"><b>Código privado</b> hasheado en backend</div>
+          <div class="mini"><b>Código privado</b> hasheado antes de guardar</div>
         </div>
       </div>
 
@@ -139,10 +188,10 @@ textarea{min-height:178px;resize:none;line-height:1.7;font-family:var(--serif);f
 
           <section class="panel" data-panel="1">
             <h3 class="title">Escribe el mensaje real</h3>
-            <p class="sub">La IA puede ayudarte a pulirlo, pero no debe inventar cosas por ti.</p>
+            <p class="sub">La IA puede ayudarte a pulirlo, pero la idea siempre debe seguir siendo tuya.</p>
             <textarea id="message" maxlength="1800" placeholder="Ej: Hoy estoy empezando algo que espero recordar con orgullo…"></textarea>
             <div class="ai">
-              <div class="aihead"><b>CapsuleMind IA</b><span class="aistate" id="aiState">conecta con /api/capsulemind</span></div>
+              <div class="aihead"><b>CapsuleMind IA</b><span class="aistate" id="aiState">OpenAI real · requiere /api/capsulemind</span></div>
               <div class="aibtns">
                 <button onclick="runAI('pulir')">Pulir sin cambiar mi idea</button>
                 <button onclick="runAI('emocional')">Más emocional</button>
@@ -150,10 +199,23 @@ textarea{min-height:178px;resize:none;line-height:1.7;font-family:var(--serif);f
                 <button onclick="runAI('breve')">Más claro y breve</button>
               </div>
             </div>
-            <div class="filebox">
-              <label for="media"><strong>Añadir recuerdos</strong><span>Fotos, video corto o audio · máximo 4 archivos pequeños</span></label>
-              <input id="media" type="file" accept="image/*,video/*,audio/*" multiple />
-              <div class="preview" id="preview"></div>
+            <div class="filetools">
+              <div class="voicebox">
+                <div class="voicehead"><b>Mandar nota de voz</b><span>Se guarda como audio dentro de la cápsula</span></div>
+                <div class="voiceactions">
+                  <button class="voicechip" id="recordBtn" onclick="toggleRecording()">Grabar nota de voz</button>
+                  <button class="voicechip" id="clearVoiceBtn" type="button" onclick="clearVoice()">Quitar audio</button>
+                </div>
+                <div class="voicepreview" id="voicePreview">
+                  <audio id="voicePlayer" controls></audio>
+                  <p id="voiceMeta">Sin nota de voz grabada todavía.</p>
+                </div>
+              </div>
+              <div class="filebox">
+                <label for="media"><strong>Añadir recuerdos</strong><span>Fotos, video corto o audio · máximo 4 archivos pequeños</span></label>
+                <input id="media" type="file" accept="image/*,video/*,audio/*" multiple />
+                <div class="preview" id="preview"></div>
+              </div>
             </div>
             <div class="navbtns"><button class="btn ghost" onclick="prevStep()">Atrás</button><button class="btn primary" onclick="nextStep()">Continuar</button></div>
           </section>
@@ -161,20 +223,37 @@ textarea{min-height:178px;resize:none;line-height:1.7;font-family:var(--serif);f
           <section class="panel" data-panel="2">
             <h3 class="title">Define cuándo vuelve</h3>
             <p class="sub">Si alguien abre el link antes, verá el temporizador vivo.</p>
-            <div class="datecards" id="datecards">
-              <button onclick="setDays(30,this)">1 mes<br><small>un primer regreso</small></button>
-              <button onclick="setDays(180,this)">6 meses<br><small>un cambio visible</small></button>
-              <button class="active" onclick="setDays(365,this)">1 año<br><small>una versión nueva</small></button>
-              <button onclick="setDays(1825,this)">5 años<br><small>una cápsula profunda</small></button>
+            <div class="whenwrap">
+              <div class="whenhero">
+                <div class="eyebrow">Tiempo de apertura</div>
+                <div class="big">Puedes crear una cápsula para hoy mismo o para el futuro.</div>
+                <div class="minihelp">Ahora puedes sellarla para que abra desde <b>2 minutos</b> en adelante, o elegir un regreso más largo y más simbólico.</div>
+              </div>
+              <div class="quickgrid" id="quickgrid">
+                <button onclick="setMinutes(2,this)"><b>2 min</b><small>una espera inmediata</small></button>
+                <button onclick="setMinutes(10,this)"><b>10 min</b><small>ideal para una prueba real</small></button>
+                <button onclick="setHours(1,this)"><b>1 hora</b><small>para hoy mismo</small></button>
+                <button onclick="setDays(1,this)"><b>Mañana</b><small>un pequeño regreso</small></button>
+              </div>
+              <div class="datecards" id="datecards">
+                <button onclick="setDays(30,this)">1 mes<br><small>un primer regreso</small></button>
+                <button onclick="setDays(180,this)">6 meses<br><small>un cambio visible</small></button>
+                <button class="active" onclick="setDays(365,this)">1 año<br><small>una versión nueva</small></button>
+                <button onclick="setDays(1825,this)">5 años<br><small>una cápsula profunda</small></button>
+              </div>
+              <div class="datetimebox">
+                <label for="customDateTime">Elegir fecha y hora exacta</label>
+                <div class="inputicon"><input class="datecustom" type="datetime-local" id="customDateTime" /></div>
+                <div class="datetimehelp"><span class="minbadge">Apertura mínima: 2 minutos desde ahora</span></div>
+              </div>
             </div>
-            <input class="datecustom" type="date" id="customDate" />
             <div class="summary" id="dateSummary"></div>
             <div class="navbtns"><button class="btn ghost" onclick="prevStep()">Atrás</button><button class="btn primary" onclick="nextStep()">Continuar</button></div>
           </section>
 
           <section class="panel" data-panel="3">
             <h3 class="title">Protege y sella</h3>
-            <p class="sub">Nada se guarda localmente como producto final. Para compartir entre dispositivos necesitas el backend conectado.</p>
+            <p class="sub">La cápsula se guarda en Supabase. El link funciona desde otro celular o computadora.</p>
             <div class="privacy">
               <button class="choice active" onclick="setPrivacy('public',this)"><b>Con link</b><small>Cualquiera con el link puede abrir cuando llegue la fecha.</small></button>
               <button class="choice" onclick="setPrivacy('private',this)"><b>Con código</b><small>Necesita link y código. El backend guarda hash, no el código.</small></button>
@@ -209,6 +288,15 @@ textarea{min-height:178px;resize:none;line-height:1.7;font-family:var(--serif);f
       <div class="timecell"><b id="tm">0</b><span>min</span></div>
       <div class="timecell"><b id="ts">0</b><span>seg</span></div>
     </div>
+    <div class="sharebox" id="shareBox">
+      <div class="sharetitle">Compartir cápsula</div>
+      <div class="sharelink" id="shareLinkText">—</div>
+      <div class="sharebuttons">
+        <button class="primaryshare" onclick="copyCurrentLink()">Copiar link</button>
+        <button onclick="shareWhatsApp()">WhatsApp</button>
+        <button onclick="shareNative()">Compartir</button>
+      </div>
+    </div>
     <div class="navbtns"><button class="btn ghost" onclick="closeOverlay('locked')">Volver</button><button class="btn primary" id="tryOpen" onclick="openFromHash()">Comprobar apertura</button></div>
   </div>
 </div>
@@ -226,7 +314,9 @@ textarea{min-height:178px;resize:none;line-height:1.7;font-family:var(--serif);f
 <div class="toast" id="toast"></div>
 
 <script>
-const API_BASE = ""; // mismo dominio: /api/capsules y /api/capsulemind
+const SUPABASE_URL = "https://uadlwltyhcfowxormslc.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_4hKZQtptZw7MAaXE7s5vVg_mzGYrqWO";
+
 const THEMES = {
   eterna:{label:"Eterna",desc:"Elegante, dorada y atemporal.",body:"Esta cápsula se sentirá como un recuerdo de lujo."},
   romantica:{label:"Romántica",desc:"Suave, cercana y emocional.",body:"Ideal para cartas, cariño y recuerdos íntimos."},
@@ -234,176 +324,699 @@ const THEMES = {
   valiente:{label:"Valiente",desc:"Clara, fuerte y optimista.",body:"Para promesas, metas y decisiones importantes."},
   secreta:{label:"Secreta",desc:"Privada, misteriosa y personal.",body:"Para recuerdos que no son para cualquiera."}
 };
-const state = { step:0, theme:"eterna", message:"", media:[], openAt:null, privacy:"public", token:null };
+
+const state = {
+  step: 0,
+  theme: "eterna",
+  message: "",
+  media: [],
+  openAt: null,
+  privacy: "public",
+  token: null
+};
+
 let lockedTimer = null;
+let recorder = null;
+let recordingStream = null;
+let recordChunks = [];
+let voiceIndex = -1;
+let recordStartedAt = 0;
+let currentShareLink = "";
 
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
-function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("on"); setTimeout(()=>t.classList.remove("on"),3200); }
-function setBackend(ok,text){ const n=$("#net"); n.classList.toggle("ok",!!ok); n.querySelector("span").textContent=text; }
-function api(path, body){
-  return fetch(API_BASE+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})
-    .then(async r=>{ const data=await r.json().catch(()=>({})); if(!r.ok) throw new Error(data.error||"Error de servidor"); return data; });
+
+function toast(msg){
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("on");
+  setTimeout(() => t.classList.remove("on"), 3200);
 }
-function fmtDate(d){ return new Date(d).toLocaleDateString("es-ES",{weekday:"long",year:"numeric",month:"long",day:"numeric"}); }
-function scrollCreator(){ $("#creator").scrollIntoView({behavior:"smooth",block:"start"}); }
-function applyTheme(t){ state.theme=t; document.body.dataset.theme=t; $$(".theme").forEach(x=>x.classList.toggle("active",x.dataset.theme===t)); $("#letterTheme").textContent=THEMES[t].label; buildSummary(); }
+
+function setBackend(ok, text){
+  const n = $("#net");
+  n.classList.toggle("ok", !!ok);
+  n.querySelector("span").textContent = text;
+}
+
+function unwrapRPC(data){
+  if(Array.isArray(data)) return data[0] || {};
+  return data || {};
+}
+
+async function rpc(functionName, payload){
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${functionName}`, {
+    method: "POST",
+    headers: {
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const raw = await res.text();
+  let data = {};
+  try { data = raw ? JSON.parse(raw) : {}; }
+  catch(e) { data = { raw }; }
+
+  if(!res.ok){
+    const msg = data.message || data.error || raw || "Error de Supabase";
+    throw new Error(msg);
+  }
+
+  return unwrapRPC(data);
+}
+
+async function sha256(text){
+  const data = new TextEncoder().encode(String(text || "").trim());
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+function fmtDate(d){
+  return new Date(d).toLocaleDateString("es-ES", {
+    weekday:"long",
+    year:"numeric",
+    month:"long",
+    day:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+function scrollCreator(){
+  $("#creator").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function applyTheme(t){
+  state.theme = t;
+  document.body.dataset.theme = t;
+  $$(".theme").forEach(x => x.classList.toggle("active", x.dataset.theme === t));
+  $("#letterTheme").textContent = THEMES[t].label;
+  buildSummary();
+}
 
 function initThemes(){
   $("#themegrid").innerHTML = Object.entries(THEMES).map(([id,t]) => `
-    <button class="theme ${id===state.theme?'active':''}" data-theme="${id}" onclick="applyTheme('${id}')">
+    <button class="theme ${id === state.theme ? "active" : ""}" data-theme="${id}" onclick="applyTheme('${id}')">
       <b>${t.label}</b><small>${t.desc}<br>${t.body}</small>
     </button>`).join("");
 }
+
 function stepUI(){
-  const names=["Identidad","Mensaje","Tiempo","Sellado"];
-  $("#stepName").textContent=names[state.step];
-  $("#stepNum").textContent=String(state.step+1).padStart(2,"0")+" / 04";
-  $("#bar").style.width=((state.step+1)/4*100)+"%";
-  $$(".panel").forEach(p=>p.classList.toggle("on",Number(p.dataset.panel)===state.step));
+  const names = ["Identidad","Mensaje","Tiempo","Sellado"];
+  $("#stepName").textContent = names[state.step];
+  $("#stepNum").textContent = String(state.step + 1).padStart(2,"0") + " / 04";
+  $("#bar").style.width = ((state.step + 1) / 4 * 100) + "%";
+  $$(".panel").forEach(p => p.classList.toggle("on", Number(p.dataset.panel) === state.step));
   buildSummary();
 }
+
 function validStep(){
-  state.message=$("#message").value.trim();
-  if(state.step===1 && state.message.length<6){ toast("Escribe un mensaje real antes de continuar."); return false; }
-  if(state.step===2 && !state.openAt){ toast("Elige una fecha de apertura."); return false; }
-  if(state.step===3 && state.privacy==="private" && $("#passcode").value.trim().length<4){ toast("El código debe tener mínimo 4 caracteres."); return false; }
+  state.message = $("#message").value.trim();
+
+  if(state.step === 1 && state.message.length < 6){
+    toast("Escribe un mensaje real antes de continuar.");
+    $("#message").focus();
+    return false;
+  }
+
+  if(state.step === 2 && !state.openAt){
+    toast("Elige una fecha de apertura.");
+    return false;
+  }
+
+  if(state.step === 3 && state.privacy === "private" && $("#passcode").value.trim().length < 4){
+    toast("El código debe tener mínimo 4 caracteres.");
+    $("#passcode").focus();
+    return false;
+  }
+
   return true;
 }
-function nextStep(){ if(!validStep()) return; state.step=Math.min(3,state.step+1); stepUI(); }
-function prevStep(){ state.step=Math.max(0,state.step-1); stepUI(); }
-function setDays(days,el){
-  const d=new Date(); d.setDate(d.getDate()+days); state.openAt=d.toISOString();
-  $$("#datecards button").forEach(b=>b.classList.remove("active")); el.classList.add("active");
-  $("#customDate").value=""; buildSummary();
+
+function nextStep(){
+  if(!validStep()) return;
+  state.step = Math.min(3, state.step + 1);
+  stepUI();
 }
-$("#customDate").addEventListener("change",e=>{
-  const d=new Date(e.target.value+"T12:00:00"); const min=new Date(); min.setDate(min.getDate()+1);
-  if(!e.target.value || d<min){ toast("Elige una fecha desde mañana."); e.target.value=""; return; }
-  state.openAt=d.toISOString(); $$("#datecards button").forEach(b=>b.classList.remove("active")); buildSummary();
+
+function prevStep(){
+  state.step = Math.max(0, state.step - 1);
+  stepUI();
+}
+
+function clearDateSelections(){
+  $$("#datecards button, #quickgrid button").forEach(b => b.classList.remove("active"));
+}
+
+function setDays(days, el){
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  state.openAt = d.toISOString();
+  clearDateSelections();
+  if(el) el.classList.add("active");
+  const custom = $("#customDateTime");
+  if(custom) custom.value = "";
+  buildSummary();
+}
+
+function setHours(hours, el){
+  const d = new Date(Date.now() + hours * 60 * 60 * 1000);
+  state.openAt = d.toISOString();
+  clearDateSelections();
+  if(el) el.classList.add("active");
+  const custom = $("#customDateTime");
+  if(custom) custom.value = "";
+  buildSummary();
+}
+
+function setMinutes(minutes, el){
+  const d = new Date(Date.now() + minutes * 60 * 1000);
+  state.openAt = d.toISOString();
+  clearDateSelections();
+  if(el) el.classList.add("active");
+  const custom = $("#customDateTime");
+  if(custom) custom.value = "";
+  buildSummary();
+}
+
+function syncDateMin(){
+  const input = $("#customDateTime");
+  if(!input) return;
+  const minDate = new Date(Date.now() + 2 * 60 * 1000);
+  const pad = n => String(n).padStart(2, "0");
+  const local = `${minDate.getFullYear()}-${pad(minDate.getMonth()+1)}-${pad(minDate.getDate())}T${pad(minDate.getHours())}:${pad(minDate.getMinutes())}`;
+  input.min = local;
+}
+
+$("#customDateTime").addEventListener("change", e => {
+  const d = new Date(e.target.value);
+  const min = new Date(Date.now() + 2 * 60 * 1000);
+  if(!e.target.value || Number.isNaN(d.getTime()) || d < min){
+    toast("Elige una hora al menos 2 minutos en el futuro.");
+    e.target.value = "";
+    return;
+  }
+  state.openAt = d.toISOString();
+  clearDateSelections();
+  buildSummary();
 });
-function setPrivacy(v,el){ state.privacy=v; $$(".choice").forEach(x=>x.classList.remove("active")); el.classList.add("active"); $("#passwrap").classList.toggle("on",v==="private"); buildSummary(); }
+
+function setPrivacy(v, el){
+  state.privacy = v;
+  $$(".choice").forEach(x => x.classList.remove("active"));
+  el.classList.add("active");
+  $("#passwrap").classList.toggle("on", v === "private");
+  buildSummary();
+}
+
+function ensureDefaultDate(){
+  if(!state.openAt){
+    const d = new Date();
+    d.setDate(d.getDate() + 365);
+    state.openAt = d.toISOString();
+  }
+  syncDateMin();
+}
+
 function buildSummary(){
-  if(!state.openAt) setDays(365, $("#datecards button.active")||$("#datecards button:nth-child(3)"));
+  ensureDefaultDate();
+
+  const msg = $("#message") ? $("#message").value.trim() : "";
   const rows = [
     ["Identidad", THEMES[state.theme].label],
-    ["Mensaje", ($("#message").value.trim()||"—").slice(0,58)+($("#message").value.trim().length>58?"…":"")],
-    ["Recuerdos", state.media.length ? `${state.media.length} archivo${state.media.length>1?"s":""}` : "Sin multimedia"],
+    ["Mensaje", msg ? msg.slice(0,58) + (msg.length > 58 ? "…" : "") : "—"],
+    ["Recuerdos", state.media.length ? `${state.media.length} archivo${state.media.length > 1 ? "s" : ""}` : "Sin multimedia"],
     ["Apertura", state.openAt ? fmtDate(state.openAt) : "—"],
-    ["Privacidad", state.privacy==="private" ? "Con código" : "Con link"]
+    ["Privacidad", state.privacy === "private" ? "Con código" : "Con link"]
   ];
-  const html = rows.map(r=>`<div class="sumrow"><span>${r[0]}</span><b>${r[1]}</b></div>`).join("");
-  $("#summary").innerHTML=html;
-  $("#dateSummary").innerHTML=`<div class="sumrow"><span>Se abrirá</span><b>${state.openAt?fmtDate(state.openAt):"—"}</b></div>`;
-}
-$("#message").addEventListener("input", e=>{ state.message=e.target.value; buildSummary(); });
 
-$("#media").addEventListener("change", async e=>{
-  const files = Array.from(e.target.files||[]).slice(0,4-state.media.length);
-  for(const f of files){
-    if(f.size>2.5*1024*1024){ toast(`"${f.name}" es muy pesado. Usa archivos menores a 2.5 MB en esta versión.`); continue; }
-    const dataUrl = await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); });
-    state.media.push({name:f.name,type:f.type,src:dataUrl});
-  }
-  renderPreview(); buildSummary(); e.target.value="";
+  const html = rows.map(r => `<div class="sumrow"><span>${r[0]}</span><b>${r[1]}</b></div>`).join("");
+
+  if($("#summary")) $("#summary").innerHTML = html;
+  if($("#dateSummary")) $("#dateSummary").innerHTML = `<div class="sumrow"><span>Se abrirá</span><b>${state.openAt ? fmtDate(state.openAt) : "—"}</b></div>`;
+}
+
+$("#message").addEventListener("input", e => {
+  state.message = e.target.value;
+  buildSummary();
 });
+
+$("#media").addEventListener("change", async e => {
+  const files = Array.from(e.target.files || []).slice(0, 4 - state.media.length);
+
+  for(const f of files){
+    if(f.size > 2.5 * 1024 * 1024){
+      toast(`"${f.name}" es muy pesado. Usa archivos menores a 2.5 MB en esta versión.`);
+      continue;
+    }
+
+    const dataUrl = await new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result);
+      r.onerror = rej;
+      r.readAsDataURL(f);
+    });
+
+    state.media.push({ name:f.name, type:f.type || guessTypeFromName(f.name), src:dataUrl });
+  }
+
+  renderPreview();
+  buildSummary();
+  e.target.value = "";
+});
+
+function guessTypeFromName(name){
+  const n = String(name || '').toLowerCase();
+  if(n.endsWith('.mp3') || n.endsWith('.m4a') || n.endsWith('.wav') || n.endsWith('.webm') || n.endsWith('.ogg')) return 'audio/webm';
+  return 'application/octet-stream';
+}
+
+async function blobToDataURL(blob){
+  return await new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = rej;
+    r.readAsDataURL(blob);
+  });
+}
+
+async function toggleRecording(){
+  if(recorder && recorder.state === 'recording'){
+    recorder.stop();
+    return;
+  }
+
+  if(state.media.length >= 4 && voiceIndex === -1){
+    toast('Ya llegaste al límite de 4 recuerdos. Quita uno para grabar audio.');
+    return;
+  }
+
+  if(!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined'){
+    toast('Tu navegador no soporta grabación de voz en esta versión.');
+    return;
+  }
+
+  try{
+    recordingStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    recordChunks = [];
+    recorder = new MediaRecorder(recordingStream);
+    recordStartedAt = Date.now();
+    recorder.ondataavailable = e => { if(e.data?.size) recordChunks.push(e.data); };
+    recorder.onstop = async () => {
+      const durationSec = Math.max(1, Math.round((Date.now() - recordStartedAt)/1000));
+      const blob = new Blob(recordChunks, { type: recorder.mimeType || 'audio/webm' });
+      if(blob.size > 2.5 * 1024 * 1024){
+        toast('La nota de voz quedó muy pesada. Graba un audio más corto.');
+        cleanupRecording();
+        return;
+      }
+      const dataUrl = await blobToDataURL(blob);
+      const item = { name:`nota-de-voz-${Date.now()}.webm`, type: blob.type || 'audio/webm', src:dataUrl, kind:'voice', duration: durationSec };
+      if(voiceIndex >= 0 && state.media[voiceIndex]) state.media[voiceIndex] = item;
+      else {
+        state.media.push(item);
+        voiceIndex = state.media.length - 1;
+      }
+      renderVoicePreview(item);
+      renderPreview();
+      buildSummary();
+      toast('Nota de voz añadida a la cápsula.');
+      cleanupRecording();
+    };
+    recorder.start();
+    const btn = $('#recordBtn');
+    btn.textContent = 'Detener grabación';
+    btn.classList.add('live');
+    $('#voiceMeta').textContent = 'Grabando… habla con naturalidad y luego toca detener.';
+    $('#voicePreview').classList.add('on');
+  }catch(err){
+    toast('No se pudo acceder al micrófono.');
+    console.error(err);
+    cleanupRecording();
+  }
+}
+
+function cleanupRecording(){
+  if(recordingStream){ recordingStream.getTracks().forEach(t => t.stop()); }
+  recordingStream = null;
+  recorder = null;
+  const btn = $('#recordBtn');
+  if(btn){ btn.textContent = 'Grabar nota de voz'; btn.classList.remove('live'); }
+}
+
+function renderVoicePreview(item){
+  const wrap = $('#voicePreview');
+  const player = $('#voicePlayer');
+  const meta = $('#voiceMeta');
+  if(!item){
+    wrap.classList.remove('on');
+    player.removeAttribute('src');
+    meta.textContent = 'Sin nota de voz grabada todavía.';
+    return;
+  }
+  player.src = item.src;
+  wrap.classList.add('on');
+  meta.textContent = `Nota de voz lista · ${item.duration || 0}s · se guardará junto a la cápsula.`;
+}
+
+function clearVoice(){
+  if(voiceIndex >= 0){
+    state.media.splice(voiceIndex, 1);
+    voiceIndex = -1;
+    renderPreview();
+    buildSummary();
+    renderVoicePreview(null);
+    toast('Nota de voz eliminada.');
+  }
+}
+
 function renderPreview(){
-  $("#preview").innerHTML = state.media.map((m,i)=>{
-    const tag = m.type.startsWith("video/") ? `<video src="${m.src}"></video>` : m.type.startsWith("image/") ? `<img src="${m.src}" alt="">` : `<div style="padding:12px;font-size:11px;color:var(--muted)">Audio</div>`;
+  $("#preview").innerHTML = state.media.map((m,i) => {
+    const tag = m.type.startsWith("video/")
+      ? `<video src="${m.src}"></video>`
+      : m.type.startsWith("image/")
+        ? `<img src="${m.src}" alt="">`
+        : `<div style="padding:12px;font-size:11px;color:var(--muted)">${m.kind === 'voice' ? 'Nota de voz' : 'Audio'}</div>`;
+
     return `<div class="thumb">${tag}<button onclick="removeMedia(${i})">×</button></div>`;
   }).join("");
 }
-function removeMedia(i){ state.media.splice(i,1); renderPreview(); buildSummary(); }
+
+function removeMedia(i){
+  state.media.splice(i,1);
+  if(i === voiceIndex){ voiceIndex = -1; renderVoicePreview(null); }
+  else if(voiceIndex > i){ voiceIndex -= 1; }
+  renderPreview();
+  buildSummary();
+}
 
 async function runAI(mode){
-  const text=$("#message").value.trim();
-  if(text.length<6){ toast("Escribe algo primero para que la IA pueda trabajarlo."); return; }
-  const buttons=$$(".aibtns button"); buttons.forEach(b=>b.disabled=true);
-  $("#aiState").textContent="IA pensando…";
+  const text = $("#message").value.trim();
+  if(text.length < 6){
+    toast("Escribe algo primero para que OpenAI pueda ayudarte.");
+    return;
+  }
+
+  const buttons = $$(".aibtns button");
+  buttons.forEach(b => b.disabled = true);
+  $("#aiState").textContent = "OpenAI pensando…";
+
   try{
-    const data=await api("/api/capsulemind",{text,mode,theme:state.theme});
-    if(data.rewritten){ $("#message").value=data.rewritten; state.message=data.rewritten; $("#aiState").textContent=`IA real · tono: ${data.tone||"emocional"}`; buildSummary(); toast("CapsuleMind mejoró tu mensaje."); }
-    else throw new Error("La IA no devolvió texto.");
+    const res = await fetch("/api/capsulemind", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({ text, mode, theme:state.theme })
+    });
+    const data = await res.json().catch(() => ({}));
+
+    if(!res.ok || !data.ok || !data.text){
+      throw new Error(data.error || "No se pudo conectar con OpenAI.");
+    }
+
+    $("#message").value = data.text.trim();
+    state.message = data.text.trim();
+    $("#aiState").textContent = `OpenAI real · ${data.tone || "mensaje pulido"}`;
+    buildSummary();
+    toast("OpenAI mejoró tu mensaje sin perder tu idea.");
   }catch(err){
-    $("#aiState").textContent="backend IA no conectado";
-    toast("La IA real necesita /api/capsulemind funcionando en el servidor.");
-  }finally{ buttons.forEach(b=>b.disabled=false); }
+    $("#aiState").textContent = "OpenAI no conectado";
+    toast(err.message || "Falta configurar /api/capsulemind con OPENAI_API_KEY.");
+    console.error(err);
+  }finally{
+    buttons.forEach(b => b.disabled = false);
+  }
 }
+
+async function copyTextSmart(value){
+  const text = String(value || "");
+  if(!text) return false;
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  }catch(e){}
+
+  try{
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand("copy");
+    ta.remove();
+    return ok;
+  }catch(e){
+    return false;
+  }
+}
+
+async function copyCurrentLink(){
+  if(!currentShareLink){ toast("Todavía no hay link para copiar."); return; }
+  const ok = await copyTextSmart(currentShareLink);
+  toast(ok ? "Link copiado automáticamente." : "No se pudo copiar. Mantén presionado el link para copiarlo.");
+}
+
+function shareWhatsApp(){
+  if(!currentShareLink){ toast("Todavía no hay link para compartir."); return; }
+  const msg = `Te comparto una cápsula del tiempo de CápsulaDe:
+${currentShareLink}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
+}
+
+async function shareNative(){
+  if(!currentShareLink){ toast("Todavía no hay link para compartir."); return; }
+  if(navigator.share){
+    try{
+      await navigator.share({ title:"CápsulaDe", text:"Te comparto una cápsula del tiempo.", url:currentShareLink });
+      return;
+    }catch(e){ return; }
+  }
+  await copyCurrentLink();
+}
+
 async function sealCapsule(){
   if(!validStep()) return;
-  const btn=$("#sealBtn"); btn.disabled=true; btn.textContent="Sellando en servidor…";
+
+  const btn = $("#sealBtn");
+  btn.disabled = true;
+  btn.textContent = "Sellando en Supabase…";
+
   try{
-    const data=await api("/api/capsules",{action:"create", capsule:{
-      theme:state.theme,
-      message:$("#message").value.trim(),
-      media:state.media,
-      openAt:state.openAt,
-      privacy:state.privacy,
-      passcode:state.privacy==="private" ? $("#passcode").value.trim() : "",
-      recipient:{label:"Para ti, del pasado"}
-    }});
-    state.token=data.token;
-    const link=location.href.split("#")[0]+"#"+data.token;
-    await navigator.clipboard?.writeText(link).catch(()=>{});
-    toast("Cápsula sellada. Link copiado.");
-    showLocked(data.openAt || state.openAt, true, link);
+    const passcode = state.privacy === "private" ? $("#passcode").value.trim() : "";
+    const codeHash = passcode ? await sha256(passcode) : null;
+
+    const data = await rpc("create_capsule_v5", {
+      p_title: "Cápsula " + THEMES[state.theme].label,
+      p_message: $("#message").value.trim(),
+      p_identity: state.theme,
+      p_open_at: state.openAt,
+      p_is_private: state.privacy === "private",
+      p_code_hash: codeHash,
+      p_media: state.media,
+      p_recipient_name: null,
+      p_recipient_email: null
+    });
+
+    if(!data.ok || !data.token) throw new Error("Supabase no devolvió token.");
+
+    state.token = data.token;
+    const link = location.href.split("#")[0] + "#" + data.token;
+
+    currentShareLink = link;
+    const copied = await copyTextSmart(link);
+    toast(copied ? "Cápsula sellada. Link copiado automáticamente." : "Cápsula sellada. Usa los botones para compartir el link.");
+    showLocked(data.open_at || state.openAt, true, link);
+
   }catch(err){
-    toast(err.message || "No se pudo guardar. Revisa el backend.");
-  }finally{ btn.disabled=false; btn.textContent="Sellar cápsula"; }
+    toast(err.message || "No se pudo guardar en Supabase.");
+    console.error(err);
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Sellar cápsula";
+  }
 }
+
 function showLocked(openAt, justCreated=false, link=""){
   closeOverlay("codeModal");
   $("#locked").classList.add("on");
-  $("#lockedText").innerHTML = justCreated ? `Se guardó en servidor. Link:<br><span style="color:var(--accent);word-break:break-all">${link}</span>` : `Se abre el ${fmtDate(openAt)}.`;
+
+  if(link){ currentShareLink = link; }
+  const shareBox = $("#shareBox");
+  const shareText = $("#shareLinkText");
+  if(currentShareLink){
+    shareBox.classList.add("on");
+    shareText.textContent = currentShareLink;
+  }else{
+    shareBox.classList.remove("on");
+    shareText.textContent = "—";
+  }
+
+  $("#lockedText").innerHTML = justCreated
+    ? `Se guardó en Supabase y el link se copió automáticamente. También puedes compartirlo por WhatsApp o con el menú de tu dispositivo.`
+    : `Se abre el ${fmtDate(openAt)}.`;
+
   startTimer(openAt);
 }
+
 function startTimer(openAt){
   clearInterval(lockedTimer);
-  const tick=()=>{
-    const ms=Math.max(0,new Date(openAt)-new Date());
-    const d=Math.floor(ms/86400000), h=Math.floor(ms%86400000/3600000), m=Math.floor(ms%3600000/60000), s=Math.floor(ms%60000/1000);
-    $("#td").textContent=d; $("#thh").textContent=String(h).padStart(2,"0"); $("#tm").textContent=String(m).padStart(2,"0"); $("#ts").textContent=String(s).padStart(2,"0");
-    if(ms<=0){ clearInterval(lockedTimer); $("#tryOpen").textContent="Abrir ahora"; }
+
+  const tick = () => {
+    const ms = Math.max(0, new Date(openAt) - new Date());
+    const d = Math.floor(ms / 86400000);
+    const h = Math.floor(ms % 86400000 / 3600000);
+    const m = Math.floor(ms % 3600000 / 60000);
+    const s = Math.floor(ms % 60000 / 1000);
+
+    $("#td").textContent = d;
+    $("#thh").textContent = String(h).padStart(2,"0");
+    $("#tm").textContent = String(m).padStart(2,"0");
+    $("#ts").textContent = String(s).padStart(2,"0");
+
+    if(ms <= 0){
+      clearInterval(lockedTimer);
+      $("#tryOpen").textContent = "Abrir ahora";
+    }
   };
-  tick(); lockedTimer=setInterval(tick,1000);
+
+  tick();
+  lockedTimer = setInterval(tick, 1000);
 }
-function closeOverlay(id){ $("#"+id).classList.remove("on"); if(id==="locked") clearInterval(lockedTimer); }
+
+function closeOverlay(id){
+  const el = $("#" + id);
+  if(el) el.classList.remove("on");
+  if(id === "locked") clearInterval(lockedTimer);
+}
+
 async function openFromHash(){
   const token = location.hash.slice(1) || state.token;
-  if(!token){ toast("No hay token de cápsula."); return; }
+  if(!token){
+    toast("No hay token de cápsula.");
+    return;
+  }
+
   try{
-    const data = await api("/api/capsules",{action:"open", token, passcode:$("#openCode").value.trim()});
-    if(data.state==="locked"){ showLocked(data.openAt); return; }
-    if(data.state==="needs_code"){ closeOverlay("locked"); $("#codeModal").classList.add("on"); return; }
-    if(data.state==="open"){ renderCapsule(data.capsule); return; }
-    throw new Error("Respuesta inválida.");
-  }catch(err){ toast(err.message || "No se pudo abrir la cápsula."); }
+    const code = $("#openCode") ? $("#openCode").value.trim() : "";
+    const codeHash = code ? await sha256(code) : null;
+
+    const data = await rpc("get_capsule_v5", {
+      p_token: token,
+      p_code_hash: codeHash
+    });
+
+    if(data.status === "locked"){
+      currentShareLink = location.href.split("#")[0] + "#" + token;
+      showLocked(data.open_at, false, currentShareLink);
+      return;
+    }
+
+    if(data.status === "needs_code"){
+      closeOverlay("locked");
+      $("#codeModal").classList.add("on");
+      return;
+    }
+
+    if(data.status === "open"){
+      renderCapsule({
+        theme: data.identity || "eterna",
+        message: data.message || "",
+        media: data.media || [],
+        recipient: { label: data.recipient_name ? `Para ${data.recipient_name}` : "Para ti, del pasado" },
+        title: data.title || "Cápsula"
+      });
+      return;
+    }
+
+    if(data.ok === false && data.error === "not_found"){
+      throw new Error("No encontré esa cápsula en Supabase.");
+    }
+
+    throw new Error("Respuesta inesperada de Supabase.");
+
+  }catch(err){
+    toast(err.message || "No se pudo abrir la cápsula.");
+    console.error(err);
+  }
 }
+
 function renderCapsule(capsule){
-  closeOverlay("locked"); closeOverlay("codeModal");
-  document.body.dataset.theme=capsule.theme||"eterna";
-  $("#home").style.display="none"; $("#reveal").classList.add("on");
-  $("#letterTheme").textContent=THEMES[capsule.theme]?.label || "Cápsula";
-  $("#letterFor").textContent=capsule.recipient?.label || "Para ti, del pasado";
-  const out=$("#outMessage"); out.innerHTML="";
-  (capsule.message||"").split(/(\s+)/).forEach((w,i)=>{
-    const span=document.createElement("span"); span.textContent=w; span.className=w.trim()?"word":""; span.style.animationDelay=(Math.min(i*22,900))+"ms"; out.appendChild(span);
+  closeOverlay("locked");
+  closeOverlay("codeModal");
+
+  document.body.dataset.theme = capsule.theme || "eterna";
+  $("#home").style.display = "none";
+  $("#reveal").classList.add("on");
+  $("#letterTheme").textContent = THEMES[capsule.theme]?.label || "Cápsula";
+  $("#letterFor").textContent = capsule.recipient?.label || "Para ti, del pasado";
+
+  const out = $("#outMessage");
+  out.innerHTML = "";
+
+  (capsule.message || "").split(/(\s+)/).forEach((w,i) => {
+    const span = document.createElement("span");
+    span.textContent = w;
+    span.className = w.trim() ? "word" : "";
+    span.style.animationDelay = (Math.min(i * 22, 900)) + "ms";
+    out.appendChild(span);
   });
-  $("#outMedia").innerHTML=(capsule.media||[]).map(m=>{
-    if((m.type||"").startsWith("video/")) return `<video controls playsinline src="${m.src}"></video>`;
-    if((m.type||"").startsWith("audio/")) return `<audio controls src="${m.src}"></audio>`;
+
+  $("#outMedia").innerHTML = (capsule.media || []).map(m => {
+    if((m.type || "").startsWith("video/")) return `<video controls playsinline src="${m.src}"></video>`;
+    if((m.type || "").startsWith("audio/")) return `<audio controls src="${m.src}"></audio>`;
     return `<img src="${m.src}" alt="Recuerdo">`;
   }).join("");
-  window.scrollTo({top:0,behavior:"smooth"});
+
+  window.scrollTo({top:0, behavior:"smooth"});
 }
+
 function showDemoReveal(){
-  renderCapsule({theme:state.theme,message:"Esto no es solo una nota: es una versión de ti intentando tocar el futuro. Si estás leyendo esto, algo de aquel día sobrevivió.",media:[],recipient:{label:"Para ti, del pasado"}});
+  renderCapsule({
+    theme: state.theme,
+    message: "Esto no es solo una nota: es una versión de ti intentando tocar el futuro. Si estás leyendo esto, algo de aquel día sobrevivió.",
+    media: [],
+    recipient: {label:"Para ti, del pasado"}
+  });
 }
+
 async function checkBackend(){
-  try{ await api("/api/capsules",{action:"health"}); setBackend(true,"Backend conectado"); }
-  catch(e){ setBackend(false,"Backend pendiente"); }
+  try{
+    const data = await rpc("get_capsule_v5", {
+      p_token: "__health_check__",
+      p_code_hash: null
+    });
+
+    if(data && data.error === "not_found"){
+      setBackend(true, "Supabase conectado");
+    }else{
+      setBackend(true, "Supabase conectado");
+    }
+
+  }catch(e){
+    setBackend(false, "Supabase pendiente");
+    console.error(e);
+  }
 }
-window.addEventListener("load",()=>{ initThemes(); setDays(365,$("#datecards button:nth-child(3)")); stepUI(); checkBackend(); if(location.hash.slice(1)) openFromHash(); });
+
+window.addEventListener("load", () => {
+  initThemes();
+  syncDateMin();
+  const defaultBtn = $("#datecards button:nth-child(3)");
+  setDays(365, defaultBtn);
+  renderVoicePreview(null);
+  stepUI();
+  checkBackend();
+
+  if(location.hash.slice(1)){
+    openFromHash();
+  }
+});
 </script>
 </body>
 </html>
